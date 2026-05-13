@@ -119,7 +119,7 @@ export const persons = pgTable("persons", {
 
 export const complaints = pgTable("complaints", {
 	id: uuid("id").primaryKey().defaultRandom(),
-	trackingCode: varchar("tracking_code", { length: 10 }).notNull().unique(),
+	trackingCode: varchar("tracking_code", { length: 12 }).notNull().unique(),
 	type: complaintTypeEnum("type").notNull(),
 	subtype: varchar("subtype", { length: 100 }),
 	status: complaintStatusEnum("status").notNull().default("draft"),
