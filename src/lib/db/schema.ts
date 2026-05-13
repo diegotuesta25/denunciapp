@@ -7,6 +7,7 @@ import {
 	timestamp,
 	date,
 	jsonb,
+	integer,
 } from "drizzle-orm/pg-core";
 import { customType } from "drizzle-orm/pg-core";
 
@@ -97,7 +98,9 @@ export const jurisdictions = pgTable("jurisdictions", {
 export const users = pgTable("users", {
 	id: uuid("id").primaryKey().defaultRandom(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
-	name: varchar("name", { length: 255 }).notNull(),
+	emailVerified: timestamp("email_verified", { mode: "date" }),
+	name: varchar("name", { length: 255 }),
+	image: varchar("image", { length: 255 }),
 	role: roleEnum("role").notNull().default("citizen"),
 	jurisdictionId: uuid("jurisdiction_id").references(() => jurisdictions.id),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -172,4 +175,38 @@ export const evidence = pgTable("evidence", {
 	sha256: varchar("sha256", { length: 64 }).notNull(),
 	uploadedBy: uuid("uploaded_by").references(() => users.id),
 	uploadedAt: timestamp("uploaded_at").notNull().defaultNow(),
+});
+
+// --- Auth.js ---
+
+export const accounts = pgTable("accounts", {
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	type: varchar("type", { length: 255 }).notNull(),
+	provider: varchar("provider", { length: 255 }).notNull(),
+	providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),
+	refresh_token: text("refresh_token"),
+	access_token: text("access_token"),
+	expires_at: integer("expires_at"),
+	token_type: varchar("token_type", { length: 255 }),
+	scope: varchar("scope", { length: 255 }),
+	id_token: text("id_token"),
+	session_state: varchar("session_state", { length: 255 }),
+});
+
+export const sessions = pgTable("sessions", {
+	sessionToken: varchar("session_token", { length: 255 })
+		.notNull()
+		.primaryKey(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	expires: timestamp("expires", { mode: "date" }).notNull(),
+});
+
+export const verificationTokens = pgTable("verification_tokens", {
+	identifier: varchar("identifier", { length: 255 }).notNull(),
+	token: varchar("token", { length: 255 }).notNull(),
+	expires: timestamp("expires", { mode: "date" }).notNull(),
 });
