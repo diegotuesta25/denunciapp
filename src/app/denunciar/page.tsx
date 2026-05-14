@@ -1,4 +1,5 @@
 import { ComplaintForm } from "@/components/shared/complaint-form";
+import Link from "next/link";
 
 export default function DenunciarPage() {
 	return (
@@ -13,6 +14,12 @@ export default function DenunciarPage() {
 						seguimiento de tu caso.
 					</p>
 				</div>
+				<Link
+					href="/"
+					className="text-sm text-gray-400 hover:text-gray-600 mb-6 inline-block"
+				>
+					← Inicio
+				</Link>
 				<div className="bg-white rounded-xl shadow-sm border p-6">
 					<ComplaintForm />
 				</div>

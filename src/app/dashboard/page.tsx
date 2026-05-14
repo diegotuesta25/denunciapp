@@ -1,4 +1,5 @@
 import { DashboardCharts } from "@/components/shared/dashboard-charts";
+import Link from "next/link";
 
 export const revalidate = 3600;
 
@@ -17,6 +18,12 @@ export default async function DashboardPage() {
 	return (
 		<div className="min-h-screen bg-gray-50">
 			<div className="max-w-6xl mx-auto px-4 py-10">
+				<Link
+					href="/"
+					className="text-sm text-gray-400 hover:text-gray-600 mb-6 inline-block"
+				>
+					← Inicio
+				</Link>
 				<div className="mb-8">
 					<h1 className="text-2xl font-semibold text-gray-900">
 						Inteligencia pública de denuncias

@@ -1,6 +1,6 @@
 export default function VerifyRequestPage() {
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gray-50">
+		<div className="h-screen flex items-center justify-center bg-gray-50">
 			<div className="w-full max-w-md p-8 bg-white rounded-xl shadow-sm border text-center">
 				<div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
 					<svg

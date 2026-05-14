@@ -14,6 +14,7 @@ import {
 	type Step2Data,
 	type Step3Data,
 } from "@/lib/validations/complaint";
+import Link from "next/link";
 
 const COMPLAINT_TYPES = [
 	{ value: "patrimonio", label: "Contra el patrimonio (robo, hurto, estafa)" },
@@ -128,6 +129,21 @@ export function ComplaintForm() {
 					Visita la sección de seguimiento e ingresa este código junto con los
 					últimos 4 dígitos de tu DNI.
 				</p>
+				// after the tracking code display card, add:
+				<div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+					<Link
+						href={`/track`}
+						className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 text-center"
+					>
+						Consultar estado de mi denuncia
+					</Link>
+					<Link
+						href="/"
+						className="text-sm text-gray-400 hover:text-gray-600 px-4 py-2 text-center"
+					>
+						Volver al inicio
+					</Link>
+				</div>
 			</div>
 		);
 	}
