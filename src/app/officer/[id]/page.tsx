@@ -5,6 +5,7 @@ import { complaints, complaintEvents } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { verifyChain } from "@/server/domain/audit-chain";
 import Link from "next/link";
+import { StatusUpdater } from "@/components/shared/status-updater";
 
 const EVENT_LABELS: Record<string, string> = {
 	created: "Denuncia registrada",
@@ -62,6 +63,7 @@ export default async function ComplaintDetailPage({
 					← Volver al panel
 				</Link>
 
+				{/* Header */}
 				<div className="bg-white rounded-xl border p-6 mb-6">
 					<div className="flex items-start justify-between">
 						<div>
@@ -89,6 +91,16 @@ export default async function ComplaintDetailPage({
 							</span>
 						</div>
 					</div>
+				</div>
+
+				{/* Status update */}
+				<div className="bg-white rounded-xl border p-6 mb-6">
+					<h2 className="text-sm font-medium text-gray-700 mb-3">Acciones</h2>
+					<StatusUpdater
+						complaintId={complaint.id}
+						currentStatus={complaint.status}
+						userRole={session.user.role}
+					/>
 				</div>
 
 				<div className="bg-white rounded-xl border p-6 mb-6">
