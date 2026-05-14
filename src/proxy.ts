@@ -12,10 +12,6 @@ const PROTECTED_ROUTES: { prefix: string; roles: string[] }[] = [
 			"admin",
 		],
 	},
-	{
-		prefix: "/dashboard",
-		roles: ["comisario", "regional_commander", "internal_affairs", "admin"],
-	},
 ];
 
 export default auth(req => {

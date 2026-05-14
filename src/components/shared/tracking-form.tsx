@@ -150,7 +150,7 @@ export function TrackingForm() {
 									<li key={event.id} className="flex gap-3">
 										<div className="flex flex-col items-center">
 											<div
-												className={`w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0 ${
+												className={`w-2.5 h-2.5 rounded-full mt-1 shrink-0 ${
 													index === result.events.length - 1
 														? "bg-blue-600"
 														: "bg-gray-300"
