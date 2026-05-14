@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { verifyChain } from "@/server/domain/audit-chain";
 import Link from "next/link";
 import { StatusUpdater } from "@/components/shared/status-updater";
+import { NoteAdder } from "@/components/shared/note-adder";
 
 const EVENT_LABELS: Record<string, string> = {
 	created: "Denuncia registrada",
@@ -95,12 +96,15 @@ export default async function ComplaintDetailPage({
 
 				{/* Status update */}
 				<div className="bg-white rounded-xl border p-6 mb-6">
-					<h2 className="text-sm font-medium text-gray-700 mb-3">Acciones</h2>
-					<StatusUpdater
-						complaintId={complaint.id}
-						currentStatus={complaint.status}
-						userRole={session.user.role}
-					/>
+					<h2 className="text-sm font-medium text-gray-700 mb-4">Acciones</h2>
+					<div className="flex flex-col flex-wrap gap-3 justify-center">
+						<StatusUpdater
+							complaintId={complaint.id}
+							currentStatus={complaint.status}
+							userRole={session.user.role}
+						/>
+						<NoteAdder complaintId={complaint.id} />
+					</div>
 				</div>
 
 				<div className="bg-white rounded-xl border p-6 mb-6">
@@ -117,41 +121,63 @@ export default async function ComplaintDetailPage({
 						Registro de eventos
 					</h2>
 					<ol className="space-y-4">
-						{events.map((event, index) => (
-							<li key={event.id} className="flex gap-4">
-								<div className="flex flex-col items-center">
-									<div
-										className={`w-3 h-3 rounded-full mt-0.5 shrink-0 ${
-											index === events.length - 1
-												? "bg-blue-600"
-												: "bg-gray-200"
-										}`}
-									/>
-									{index < events.length - 1 && (
-										<div className="w-px flex-1 bg-gray-100 my-1" />
-									)}
-								</div>
-								<div className="pb-2 flex-1 min-w-0">
-									<div className="flex items-center gap-2 flex-wrap">
-										<p className="text-sm font-medium text-gray-900">
-											{EVENT_LABELS[event.eventType] ?? event.eventType}
-										</p>
-										{event.actorRole && (
-											<span className="text-xs text-gray-400">
-												por {event.actorRole}
-											</span>
+						{events.map((event, index) => {
+							const payload = event.payload as Record<string, unknown> | null;
+							const isNote = event.eventType === "note_added";
+							const noteText =
+								isNote && typeof payload?.text === "string"
+									? payload.text
+									: null;
+							const noteVisibility =
+								isNote && typeof payload?.visibility === "string"
+									? payload.visibility
+									: null;
+
+							return (
+								<li key={event.id} className="flex gap-4">
+									<div className="flex flex-col items-center">
+										<div
+											className={`w-3 h-3 rounded-full mt-0.5 shrink-0 ${
+												index === events.length - 1
+													? "bg-blue-600"
+													: "bg-gray-200"
+											}`}
+										/>
+										{index < events.length - 1 && (
+											<div className="w-px flex-1 bg-gray-100 my-1" />
 										)}
 									</div>
-									<p className="text-xs text-gray-400 mt-0.5">
-										{new Date(event.createdAt).toLocaleString("es-PE")}
-									</p>
-
-									<p className="text-xs font-mono text-gray-300 mt-1">
-										{event.hash.slice(0, 16)}...
-									</p>
-								</div>
-							</li>
-						))}
+									<div className="pb-2 flex-1 min-w-0">
+										<div className="flex items-center gap-2 flex-wrap">
+											<p className="text-sm font-medium text-gray-900">
+												{EVENT_LABELS[event.eventType] ?? event.eventType}
+											</p>
+											{event.actorRole && (
+												<span className="text-xs text-gray-400">
+													por {event.actorRole}
+												</span>
+											)}
+											{noteVisibility === "private" && (
+												<span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+													Privada
+												</span>
+											)}
+										</div>
+										<p className="text-xs text-gray-400 mt-0.5">
+											{new Date(event.createdAt).toLocaleString("es-PE")}
+										</p>
+										{noteText && (
+											<p className="text-sm text-gray-700 mt-2 bg-gray-50 border border-gray-100 rounded-lg p-3">
+												{noteText}
+											</p>
+										)}
+										<p className="text-xs font-mono text-gray-300 mt-1">
+											{event.hash.slice(0, 16)}...
+										</p>
+									</div>
+								</li>
+							);
+						})}
 					</ol>
 				</div>
 			</div>

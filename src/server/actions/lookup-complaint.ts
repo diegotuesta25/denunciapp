@@ -27,6 +27,7 @@ export type ComplaintPublicView = {
 		eventType: string;
 		hash: string;
 		createdAt: Date;
+		payload: unknown;
 	}[];
 };
 
@@ -79,6 +80,7 @@ export async function lookupComplaint(
 				eventType: true,
 				hash: true,
 				createdAt: true,
+				payload: true,
 			},
 			orderBy: (e, { asc }) => [asc(e.createdAt)],
 		});

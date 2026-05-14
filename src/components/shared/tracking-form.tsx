@@ -136,33 +136,49 @@ export function TrackingForm() {
 							Historial
 						</p>
 						<ol className="space-y-3">
-							{result.events.map((event, index) => (
-								<li key={event.id} className="flex gap-3">
-									<div className="flex flex-col items-center">
-										<div
-											className={`w-2.5 h-2.5 rounded-full mt-1 shrink-0 ${
-												index === result.events.length - 1
-													? "bg-blue-600"
-													: "bg-gray-300"
-											}`}
-										/>
-										{index < result.events.length - 1 && (
-											<div className="w-px flex-1 bg-gray-200 mt-1" />
-										)}
-									</div>
-									<div className="pb-3 flex-1">
-										<p className="text-sm font-medium text-gray-900">
-											{getEventLabel(event.eventType)}
-										</p>
-										<p className="text-xs text-gray-400 mt-0.5">
-											{new Date(event.createdAt).toLocaleString("es-PE")}
-										</p>
-										<p className="text-xs font-mono text-gray-300 mt-1">
-											#{event.hash.slice(0, 8)}
-										</p>
-									</div>
-								</li>
-							))}
+							{result.events.map((event, index) => {
+								const payload = event.payload as Record<string, unknown> | null;
+								const isPublicNote =
+									event.eventType === "note_added" &&
+									payload?.visibility === "public" &&
+									typeof payload?.text === "string";
+
+								if (event.eventType === "note_added" && !isPublicNote)
+									return null;
+
+								return (
+									<li key={event.id} className="flex gap-3">
+										<div className="flex flex-col items-center">
+											<div
+												className={`w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0 ${
+													index === result.events.length - 1
+														? "bg-blue-600"
+														: "bg-gray-300"
+												}`}
+											/>
+											{index < result.events.length - 1 && (
+												<div className="w-px flex-1 bg-gray-200 mt-1" />
+											)}
+										</div>
+										<div className="pb-3 flex-1">
+											<p className="text-sm font-medium text-gray-900">
+												{getEventLabel(event.eventType)}
+											</p>
+											<p className="text-xs text-gray-400 mt-0.5">
+												{new Date(event.createdAt).toLocaleString("es-PE")}
+											</p>
+											{isPublicNote && (
+												<p className="text-sm text-gray-700 mt-2 bg-blue-50 border border-blue-100 rounded-lg p-3">
+													{payload.text as string}
+												</p>
+											)}
+											<p className="text-xs font-mono text-gray-300 mt-1">
+												#{event.hash.slice(0, 8)}
+											</p>
+										</div>
+									</li>
+								);
+							})}
 						</ol>
 					</div>
 				</div>
