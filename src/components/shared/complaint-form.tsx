@@ -6,15 +6,10 @@ import { StepIndicator } from "./step-indicator";
 import { submitComplaint } from "@/server/actions/submit-complaint";
 import {
 	complaintFormSchema,
-	step1Schema,
-	step2Schema,
-	step3Schema,
 	type ComplaintFormData,
-	type Step1Data,
-	type Step2Data,
-	type Step3Data,
 } from "@/lib/validations/complaint";
 import Link from "next/link";
+import { EvidenceUploader } from "./evidence-uploader";
 
 const COMPLAINT_TYPES = [
 	{ value: "patrimonio", label: "Contra el patrimonio (robo, hurto, estafa)" },
@@ -34,6 +29,7 @@ type FormStep = 1 | 2 | 3;
 export function ComplaintForm() {
 	const [currentStep, setCurrentStep] = useState<FormStep>(1);
 	const [trackingCode, setTrackingCode] = useState<string | null>(null);
+	const [complaintId, setComplaintId] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -68,7 +64,7 @@ export function ComplaintForm() {
 
 		if (isValid) setCurrentStep(s => (s + 1) as FormStep);
 	}
-
+	console.log("complaintId being passed:", complaintId);
 	async function handleSubmit(data: ComplaintFormData) {
 		setIsSubmitting(true);
 		setSubmitError(null);
@@ -77,6 +73,7 @@ export function ComplaintForm() {
 			const result = await submitComplaint(data);
 			if (result.success) {
 				setTrackingCode(result.data.trackingCode);
+				setComplaintId(result.data.complaintId);
 			} else {
 				setSubmitError(result.error.message);
 			}
@@ -115,10 +112,22 @@ export function ComplaintForm() {
 						{trackingCode}
 					</p>
 				</div>
-				<p className="text-sm text-gray-400">
+				<div className="mt-8 text-left border-t pt-6">
+					<p className="text-sm font-medium text-gray-700 mb-1">
+						¿Tienes fotos, videos o documentos relacionados?
+					</p>
+					<p className="text-xs text-gray-400 mb-3">
+						Puedes adjuntarlos ahora o más tarde desde la sección de
+						seguimiento.
+					</p>
+
+					<EvidenceUploader complaintId={complaintId} />
+				</div>
+				<p className="text-sm text-gray-400 pt-5">
 					Visita la sección de seguimiento e ingresa este código junto con los
 					últimos 4 dígitos de tu DNI.
 				</p>
+
 				<div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
 					<Link
 						href={`/track`}

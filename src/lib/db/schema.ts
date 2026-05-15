@@ -74,6 +74,12 @@ export const evidenceKindEnum = pgEnum("evidence_kind", [
 	"audio",
 ]);
 
+export const evidenceStatusEnum = pgEnum("evidence_status", [
+	"pending",
+	"confirmed",
+	"rejected",
+]);
+
 export const jurisdictionTypeEnum = pgEnum("jurisdiction_type", [
 	"department",
 	"province",
@@ -131,6 +137,7 @@ export const complaints = pgTable("complaints", {
 	locationAddress: text("location_address"),
 	incidentAt: timestamp("incident_at"),
 	jurisdictionId: uuid("jurisdiction_id").references(() => jurisdictions.id),
+	assignedOfficerId: uuid("assigned_officer_id").references(() => users.id),
 	complainantId: uuid("complainant_id").references(() => users.id),
 	lockedAt: timestamp("locked_at"),
 	currentHash: varchar("current_hash", { length: 64 }),
@@ -170,11 +177,15 @@ export const evidence = pgTable("evidence", {
 	complaintId: uuid("complaint_id")
 		.notNull()
 		.references(() => complaints.id),
-	kind: evidenceKindEnum("kind").notNull(),
-	url: text("url").notNull(),
-	sha256: varchar("sha256", { length: 64 }).notNull(),
-	uploadedBy: uuid("uploaded_by").references(() => users.id),
-	uploadedAt: timestamp("uploaded_at").notNull().defaultNow(),
+	uploadedById: uuid("uploaded_by_id").references(() => users.id),
+	fileName: varchar("file_name", { length: 255 }).notNull(),
+	fileSize: integer("file_size").notNull(), // bytes
+	mimeType: varchar("mime_type", { length: 100 }).notNull(),
+	blobUrl: text("blob_url").notNull(),
+	sha256Hash: varchar("sha256_hash", { length: 64 }).notNull(),
+	status: evidenceStatusEnum("status").notNull().default("pending"),
+	scannedAt: timestamp("scanned_at"), // null until virus scan runs (Phase 2)
+	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 // --- Auth.js ---

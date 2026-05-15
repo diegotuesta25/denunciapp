@@ -7,6 +7,9 @@ import { verifyChain } from "@/server/domain/audit-chain";
 import Link from "next/link";
 import { StatusUpdater } from "@/components/shared/status-updater";
 import { NoteAdder } from "@/components/shared/note-adder";
+import { EvidenceList } from "@/components/shared/evidence-list";
+import { EvidenceUploader } from "@/components/shared/evidence-uploader";
+import { EvidenceSection } from "@/components/shared/evidence-section";
 
 const EVENT_LABELS: Record<string, string> = {
 	created: "Denuncia registrada",
@@ -115,6 +118,8 @@ export default async function ComplaintDetailPage({
 						{complaint.narrativeFinal ?? complaint.narrativeOriginal}
 					</p>
 				</div>
+
+				<EvidenceSection complaintId={complaint.id} />
 
 				<div className="bg-white rounded-xl border p-6">
 					<h2 className="text-sm font-medium text-gray-700 mb-4">

@@ -18,7 +18,7 @@ import { logger } from "@/lib/logger";
 import { complaintSubmitLimiter } from "@/lib/rate-limit";
 import { getIp } from "@/lib/get-ip";
 
-type SubmitResult = Result<{ trackingCode: string }>;
+type SubmitResult = Result<{ trackingCode: string; complaintId: string }>;
 
 export async function submitComplaint(
 	formData: unknown,
@@ -98,7 +98,7 @@ export async function submitComplaint(
 			});
 		});
 
-		return ok({ trackingCode });
+		return ok({ trackingCode, complaintId });
 	} catch (error) {
 		logger.error({
 			action: "submitComplaint",

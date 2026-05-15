@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { complaints } from "@/lib/db/schema";
+import { eq, or, isNull } from "drizzle-orm";
 import Link from "next/link";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -26,6 +27,35 @@ const TYPE_LABELS: Record<string, string> = {
 export default async function OfficerPage() {
 	const session = await auth();
 	if (!session) redirect("/sign-in");
+
+	const role = session.user.role;
+	const userId = session.user.id;
+
+	const canSeeAll = [
+		"comisario",
+		"regional_commander",
+		"internal_affairs",
+		"admin",
+	].includes(role);
+
+	const rows = await db.query.complaints.findMany({
+		where: canSeeAll
+			? undefined //
+			: or(
+					eq(complaints.assignedOfficerId, userId),
+					isNull(complaints.assignedOfficerId),
+				),
+		columns: {
+			id: true,
+			trackingCode: true,
+			type: true,
+			status: true,
+			assignedOfficerId: true,
+			createdAt: true,
+		},
+		orderBy: (c, { desc }) => [desc(c.createdAt)],
+		limit: 50,
+	});
 
 	const allComplaints = await db.query.complaints.findMany({
 		columns: {
