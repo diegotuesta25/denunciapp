@@ -6,6 +6,9 @@ import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { buildEvent, GENESIS_HASH } from "@/server/domain/audit-chain";
+import { ok, err, type Result } from "@/lib/result";
+import * as Sentry from "@sentry/nextjs";
+import { logger } from "@/lib/logger";
 
 const InputSchema = z.object({
 	complaintId: z.string().uuid(),
@@ -13,13 +16,19 @@ const InputSchema = z.object({
 	visibility: z.enum(["public", "private"]),
 });
 
-type Result = { success: true } | { success: false; error: string };
+export async function addComplaintNote(input: unknown): Promise<Result<void>> {
+	const startTime = Date.now();
 
-export async function addComplaintNote(input: unknown): Promise<Result> {
+	logger.info({ action: "addComplaintNote" }, "Add note started");
+
 	try {
 		const data = InputSchema.parse(input);
+
 		const session = await auth();
-		if (!session) return { success: false, error: "No autorizado" };
+		if (!session) {
+			logger.warn({ action: "addComplaintNote" }, "Unauthenticated attempt");
+			return err("AUTH_REQUIRED", "No autorizado");
+		}
 
 		const allowedRoles = [
 			"officer",
@@ -29,14 +38,29 @@ export async function addComplaintNote(input: unknown): Promise<Result> {
 			"admin",
 		];
 		if (!allowedRoles.includes(session.user.role)) {
-			return { success: false, error: "Sin permisos" };
+			logger.warn(
+				{
+					action: "addComplaintNote",
+					actorRole: session.user.role,
+					actorId: session.user.id,
+				},
+				"Unauthorized role attempted to add note",
+			);
+			return err("FORBIDDEN", "Sin permisos para agregar notas");
 		}
 
 		const complaint = await db.query.complaints.findFirst({
 			where: eq(complaints.id, data.complaintId),
 			columns: { id: true, currentHash: true },
 		});
-		if (!complaint) return { success: false, error: "Denuncia no encontrada" };
+
+		if (!complaint) {
+			logger.warn(
+				{ action: "addComplaintNote", complaintId: data.complaintId },
+				"Complaint not found",
+			);
+			return err("NOT_FOUND", "Denuncia no encontrada");
+		}
 
 		const event = buildEvent({
 			complaintId: complaint.id,
@@ -61,9 +85,46 @@ export async function addComplaintNote(input: unknown): Promise<Result> {
 		});
 
 		revalidatePath(`/officer/${complaint.id}`);
-		return { success: true };
+
+		logger.info(
+			{
+				action: "addComplaintNote",
+				complaintId: complaint.id,
+				visibility: data.visibility,
+				actorId: session.user.id,
+				actorRole: session.user.role,
+				eventId: event.id,
+				durationMs: Date.now() - startTime,
+			},
+			"Note added successfully",
+		);
+
+		return ok(undefined);
 	} catch (error) {
-		console.error("addComplaintNote error:", error);
-		return { success: false, error: "Error al agregar la nota" };
+		if (error instanceof z.ZodError) {
+			logger.warn(
+				{
+					action: "addComplaintNote",
+					errors: error.errors.map(e => ({ path: e.path, message: e.message })),
+				},
+				"Input validation failed",
+			);
+			return err("INVALID_INPUT", "Los datos proporcionados son inválidos");
+		}
+
+		logger.error(
+			{
+				action: "addComplaintNote",
+				durationMs: Date.now() - startTime,
+				error: error instanceof Error ? error.message : String(error),
+			},
+			"Unexpected error adding note",
+		);
+
+		Sentry.captureException(error, {
+			tags: { action: "addComplaintNote" },
+		});
+
+		return err("DB_ERROR", "Error al agregar la nota");
 	}
 }

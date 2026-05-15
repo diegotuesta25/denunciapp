@@ -70,29 +70,19 @@ export function ComplaintForm() {
 	}
 
 	async function handleSubmit(data: ComplaintFormData) {
-		const isStep3Valid = await form.trigger(
-			[
-				"complainantName",
-				"complainantDni",
-				"complainantEmail",
-				"complainantPhone",
-			],
-			{ shouldFocus: true },
-		);
-		if (!isStep3Valid) return;
-
 		setIsSubmitting(true);
 		setSubmitError(null);
 
-		const result = await submitComplaint(data);
-
-		if (result.success) {
-			setTrackingCode(result.trackingCode);
-		} else {
-			setSubmitError(result.error);
+		try {
+			const result = await submitComplaint(data);
+			if (result.success) {
+				setTrackingCode(result.data.trackingCode);
+			} else {
+				setSubmitError(result.error.message);
+			}
+		} finally {
+			setIsSubmitting(false);
 		}
-
-		setIsSubmitting(false);
 	}
 
 	if (trackingCode) {
@@ -129,7 +119,6 @@ export function ComplaintForm() {
 					Visita la sección de seguimiento e ingresa este código junto con los
 					últimos 4 dígitos de tu DNI.
 				</p>
-				// after the tracking code display card, add:
 				<div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
 					<Link
 						href={`/track`}

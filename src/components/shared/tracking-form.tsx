@@ -36,10 +36,6 @@ export function TrackingForm() {
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 
-	console.log("DNI", dniSuffix);
-	console.log("Tracking code", trackingCode);
-	console.log("Loading", loading);
-
 	async function handleLookup() {
 		if (!trackingCode.trim() || !dniSuffix.trim()) return;
 
@@ -47,18 +43,22 @@ export function TrackingForm() {
 		setError(null);
 		setResult(null);
 
-		const res = await lookupComplaint({
-			trackingCode: trackingCode.trim().toUpperCase(),
-			dniSuffix: dniSuffix.trim(),
-		});
+		try {
+			const res = await lookupComplaint({
+				trackingCode: trackingCode.trim().toUpperCase(),
+				dniSuffix: dniSuffix.trim(),
+			});
 
-		if (res.success) {
-			setResult(res.data);
-		} else {
-			setError(res.error);
+			if (res.success) {
+				setResult(res.data);
+			} else {
+				setError(res.error.message);
+			}
+		} catch (unexpectedError) {
+			setError("Error de conexión. Por favor intenta nuevamente.");
+		} finally {
+			setLoading(false);
 		}
-
-		setLoading(false);
 	}
 
 	return (

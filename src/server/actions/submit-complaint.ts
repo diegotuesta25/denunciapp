@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import {
 	complaints,
 	complaintEvents,
-	users,
 	persons,
 	complaintParties,
 } from "@/lib/db/schema";
@@ -13,20 +12,38 @@ import { generateTrackingCode } from "@/lib/tracking-code";
 import { auth } from "@/auth";
 import { eq } from "drizzle-orm";
 import { v4 as uuid } from "uuid";
+import { ok, err, type Result } from "@/lib/result";
+import * as Sentry from "@sentry/nextjs";
+import { logger } from "@/lib/logger";
+import { complaintSubmitLimiter } from "@/lib/rate-limit";
+import { getIp } from "@/lib/get-ip";
 
-type SubmitResult =
-	| { success: true; trackingCode: string }
-	| { success: false; error: string };
+type SubmitResult = Result<{ trackingCode: string }>;
 
 export async function submitComplaint(
 	formData: unknown,
 ): Promise<SubmitResult> {
 	try {
+		const ip = await getIp();
+		const { success: rateLimitOk, remaining } =
+			await complaintSubmitLimiter.limit(ip);
+		if (!rateLimitOk) {
+			logger.warn({ action: "submitComplaint", ip }, "Rate limit exceeded");
+			return err(
+				"RATE_LIMITED",
+				`Has enviado demasiadas denuncias. Intenta nuevamente en una hora.`,
+			);
+		}
 		const data = complaintFormSchema.parse(formData);
 		const session = await auth();
 		const complaintId = uuid();
 		const trackingCode = generateTrackingCode();
 		const incidentAt = new Date(`${data.incidentDate}T${data.incidentTime}`);
+
+		logger.info(
+			{ action: "submitComplaint", ip, remaining },
+			"Rate limit check passed",
+		);
 		const genesisEvent = buildEvent({
 			complaintId,
 			eventType: "created",
@@ -43,7 +60,6 @@ export async function submitComplaint(
 		});
 
 		await db.transaction(async tx => {
-			// Insert the complaint
 			await tx.insert(complaints).values({
 				id: complaintId,
 				trackingCode,
@@ -82,13 +98,20 @@ export async function submitComplaint(
 			});
 		});
 
-		return { success: true, trackingCode };
+		return ok({ trackingCode });
 	} catch (error) {
-		console.error("submitComplaint error:", error);
-		return {
-			success: false,
-			error:
-				"Ocurrió un error al registrar la denuncia. Por favor intenta nuevamente.",
-		};
+		logger.error({
+			action: "submitComplaint",
+			error: String(error),
+		});
+
+		Sentry.captureException(error, {
+			tags: { action: "submitComplaint" },
+		});
+
+		return err(
+			"DB_ERROR",
+			"Ocurrió un error al registrar la denuncia. Por favor intenta nuevamente.",
+		);
 	}
 }

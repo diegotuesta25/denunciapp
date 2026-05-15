@@ -19,7 +19,7 @@ export default async function HomePage() {
 				<div className="max-w-4xl mx-auto px-4 py-20 text-center">
 					<div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-full mb-6">
 						<span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-						Proyecto de cartera — inspirado en SIDPOL, PNP
+						Proyecto de portafolio inspirado en SIDPOL, PNP
 					</div>
 					<h1 className="text-4xl font-semibold text-gray-900 mb-4 leading-tight">
 						Denuncias policiales con

@@ -22,7 +22,7 @@ export function NoteAdder({ complaintId }: { complaintId: string }) {
 				setText("");
 				setIsOpen(false);
 			} else {
-				setError(result.error);
+				setError(result.error.message);
 			}
 		});
 	}

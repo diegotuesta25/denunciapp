@@ -55,7 +55,7 @@ export function StatusUpdater({ complaintId, currentStatus, userRole }: Props) {
 				setSelectedStatus("");
 				setReason("");
 			} else {
-				setError(result.error);
+				setError(result.error.message);
 			}
 		});
 	}

@@ -9,14 +9,23 @@ export function VerifyForm() {
 	const [trackingCode, setTrackingCode] = useState("");
 	const [result, setResult] = useState<VerifyResult | null>(null);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
 	async function handleVerify() {
 		if (!trackingCode.trim()) return;
 		setLoading(true);
 		setResult(null);
-		const res = await verifyComplaint(trackingCode);
-		setResult(res);
-		setLoading(false);
+		setError(null);
+		try {
+			const res = await verifyComplaint(trackingCode);
+			if (res.success) {
+				setResult(res.data);
+			} else {
+				setError(res.error.message);
+			}
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
@@ -44,18 +53,18 @@ export function VerifyForm() {
 				</button>
 			</div>
 
-			{result && !result.success && (
+			{error && (
 				<div className="bg-red-50 border border-red-200 rounded-lg p-4">
-					<p className="text-sm text-red-600">{result.error}</p>
+					<p className="text-sm text-red-600">{error}</p>
 				</div>
 			)}
 
-			{result?.success && (
+			{result && (
 				<div className="border-t pt-6 space-y-4">
 					{/* The big trust signal */}
 					<div
 						className={`rounded-xl p-6 ${
-							result.data.chainValid
+							result.chainValid
 								? "bg-green-50 border border-green-200"
 								: "bg-red-50 border border-red-200"
 						}`}
@@ -63,29 +72,27 @@ export function VerifyForm() {
 						<div className="flex items-center gap-3 mb-2">
 							<div
 								className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-xl font-bold ${
-									result.data.chainValid ? "bg-green-600" : "bg-red-600"
+									result.chainValid ? "bg-green-600" : "bg-red-600"
 								}`}
 							>
-								{result.data.chainValid ? "✓" : "✗"}
+								{result.chainValid ? "✓" : "✗"}
 							</div>
 							<div>
 								<p
 									className={`font-semibold ${
-										result.data.chainValid ? "text-green-900" : "text-red-900"
+										result.chainValid ? "text-green-900" : "text-red-900"
 									}`}
 								>
-									{result.data.chainValid
-										? "Registro íntegro"
-										: "Registro alterado"}
+									{result.chainValid ? "Registro íntegro" : "Registro alterado"}
 								</p>
 								<p
 									className={`text-xs ${
-										result.data.chainValid ? "text-green-700" : "text-red-700"
+										result.chainValid ? "text-green-700" : "text-red-700"
 									}`}
 								>
-									{result.data.chainValid
+									{result.chainValid
 										? "La cadena de eventos no ha sido modificada"
-										: `Se detectó alteración en el evento #${(result.data.brokenAtIndex ?? 0) + 1}`}
+										: `Se detectó alteración en el evento #${(result.brokenAtIndex ?? 0) + 1}`}
 								</p>
 							</div>
 						</div>
@@ -98,23 +105,21 @@ export function VerifyForm() {
 								Código
 							</dt>
 							<dd className="font-mono text-gray-900 font-medium">
-								{result.data.trackingCode}
+								{result.trackingCode}
 							</dd>
 						</div>
 						<div>
 							<dt className="text-gray-400 text-xs uppercase tracking-wide mb-1">
 								Eventos
 							</dt>
-							<dd className="text-gray-900 font-medium">
-								{result.data.eventCount}
-							</dd>
+							<dd className="text-gray-900 font-medium">{result.eventCount}</dd>
 						</div>
 						<div>
 							<dt className="text-gray-400 text-xs uppercase tracking-wide mb-1">
 								Primer evento
 							</dt>
 							<dd className="text-gray-700">
-								{new Date(result.data.firstEventAt).toLocaleString("es-PE")}
+								{new Date(result.firstEventAt).toLocaleString("es-PE")}
 							</dd>
 						</div>
 						<div>
@@ -122,7 +127,7 @@ export function VerifyForm() {
 								Último evento
 							</dt>
 							<dd className="text-gray-700">
-								{new Date(result.data.lastEventAt).toLocaleString("es-PE")}
+								{new Date(result.lastEventAt).toLocaleString("es-PE")}
 							</dd>
 						</div>
 					</dl>
