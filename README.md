@@ -122,8 +122,6 @@ src/
     domain/             ← Pure TS: state machine, audit chain
   components/
     shared/             ← Forms, evidence, filters
-    officer/            ← Officer console components
-    dashboard/          ← Map + charts
   lib/
     db/                 ← Drizzle schema + client
     result.ts           ← Result<T> pattern
