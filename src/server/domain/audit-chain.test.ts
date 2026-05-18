@@ -152,3 +152,58 @@ describe("verifyChain", () => {
 		expect(result.valid).toBe(true);
 	});
 });
+
+describe("computeHash — null branches", () => {
+	it("produces a valid hash when payload is null", () => {
+		const hash = computeHash(GENESIS_HASH, null, {
+			eventType: "created",
+			actorId: "user-1",
+			createdAt: new Date("2026-05-18T12:00:00Z"),
+		});
+		expect(hash).toHaveLength(64);
+		expect(hash).toMatch(/^[a-f0-9]+$/);
+	});
+
+	it("produces a different hash for null payload vs non-null payload", () => {
+		const meta = {
+			eventType: "created" as const,
+			actorId: "user-1",
+			createdAt: new Date("2026-05-18T12:00:00Z"),
+		};
+		const withNull = computeHash(GENESIS_HASH, null, meta);
+		const withPayload = computeHash(GENESIS_HASH, { key: "value" }, meta);
+		expect(withNull).not.toBe(withPayload);
+	});
+
+	it("treats null actorId identically to the string 'system'", () => {
+		const fixedDate = new Date("2026-05-18T12:00:00Z");
+		const payload = { test: true };
+
+		const hashWithNull = computeHash(GENESIS_HASH, payload, {
+			eventType: "created",
+			actorId: null,
+			createdAt: fixedDate,
+		});
+
+		const hashWithSystem = computeHash(GENESIS_HASH, payload, {
+			eventType: "created",
+			actorId: "system",
+			createdAt: fixedDate,
+		});
+
+		expect(hashWithNull).toBe(hashWithSystem);
+	});
+});
+
+describe("verifyChain — null prevHash fallback", () => {
+	it("treats a null prevHash as GENESIS_HASH when verifying a genesis event", () => {
+		const event = makeEvent();
+		const withNullPrevHash = {
+			...event,
+			prevHash: null as unknown as string,
+		};
+
+		const result = verifyChain([withNullPrevHash]);
+		expect(result.valid).toBe(true);
+	});
+});

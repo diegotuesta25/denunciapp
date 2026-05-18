@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { step1Schema, step3Schema, complaintFormSchema } from "./complaint";
+import {
+	step1Schema,
+	step3Schema,
+	complaintFormSchema,
+	step2Schema,
+} from "./complaint";
 
 describe("step1Schema", () => {
 	it("validates a complete valid step 1", () => {
@@ -45,6 +50,32 @@ describe("step1Schema", () => {
 			incidentDate: "2026-05-01",
 			incidentTime: "14:30",
 			narrative: "A".repeat(50),
+		});
+		expect(result.success).toBe(false);
+	});
+});
+
+describe("step2Schema", () => {
+	it("validates a complete valid step 2", () => {
+		const result = step2Schema.safeParse({
+			locationAddress: "Calle Vicente Romero 123",
+			jurisdictionId: "0252b0ac-e99a-471c-ac34-85d2ae592a57",
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it("rejects a location too short", () => {
+		const result = step2Schema.safeParse({
+			locationAddress: "Call",
+			jurisdictionId: "0252b0ac-e99a-471c-ac34-85d2ae592a57",
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it("rejects a not selected jurisdiction", () => {
+		const result = step2Schema.safeParse({
+			locationAddress: "Calle Vicente Romero 123",
+			jurisdictionId: "",
 		});
 		expect(result.success).toBe(false);
 	});

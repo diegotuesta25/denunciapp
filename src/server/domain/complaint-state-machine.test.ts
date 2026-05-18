@@ -69,6 +69,14 @@ describe("canTransition", () => {
 		it("blocks any transition from anulada — it is terminal", () => {
 			expect(canTransition("anulada", "recibida", "admin")).toBe(false);
 		});
+		it("returns false when the target status has no permission entry — defensive branch", () => {
+			const result = canTransition(
+				"en_investigacion",
+				"rectificada" as Parameters<typeof canTransition>[1],
+				"admin",
+			);
+			expect(result).toBe(false);
+		});
 	});
 });
 

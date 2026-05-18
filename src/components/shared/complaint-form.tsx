@@ -39,7 +39,6 @@ export function ComplaintForm() {
 	const [districts, setDistricts] = useState<JurisdictionOption[]>([]);
 	const [loadingDistricts, setLoadingDistricts] = useState(true);
 
-	// Fetch districts once on mount
 	useEffect(() => {
 		getDistrictJurisdictions().then(data => {
 			setDistricts(data);
