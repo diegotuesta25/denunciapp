@@ -24,13 +24,13 @@ export function StepIndicator({
                 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium mb-1
                 ${isCompleted ? "bg-blue-600 text-white" : ""}
                 ${isCurrent ? "bg-blue-600 text-white ring-4 ring-blue-100" : ""}
-                ${!isCompleted && !isCurrent ? "bg-gray-100 text-gray-400" : ""}
+                ${!isCompleted && !isCurrent ? "bg-gray-100 text-gray-500" : ""}
               `}
 							>
 								{isCompleted ? "✓" : stepNumber}
 							</div>
 							<span
-								className={`text-xs text-center ${isCurrent ? "text-blue-600 font-medium" : "text-gray-400"}`}
+								className={`text-xs text-center ${isCurrent ? "text-blue-600 font-medium" : "text-gray-500"}`}
 							>
 								{label}
 							</span>

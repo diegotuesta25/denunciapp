@@ -56,7 +56,7 @@ export default async function SignInPage({
 				</form>
 				{process.env.NEXT_PUBLIC_DEMO_MODE === "true" && (
 					<div className="mt-8 pt-8 border-t border-gray-100">
-						<p className="text-xs text-gray-400 uppercase tracking-wide text-center mb-3">
+						<p className="text-xs text-gray-500 uppercase tracking-wide text-center mb-3">
 							¿Eres reclutador o quieres explorar?
 						</p>
 						<form action={loginAsDemoOfficer}>
@@ -73,7 +73,7 @@ export default async function SignInPage({
 								</p>
 							</button>
 						</form>
-						<p className="text-xs text-gray-300 text-center mt-3">
+						<p className="text-xs text-gray-400 text-center mt-3">
 							Los datos de demostración son ficticios.
 						</p>
 					</div>

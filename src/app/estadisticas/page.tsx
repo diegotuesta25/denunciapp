@@ -22,7 +22,7 @@ export default async function DashboardPage() {
 			<div className="max-w-6xl mx-auto px-4 py-10">
 				<Link
 					href="/"
-					className="text-sm text-gray-400 hover:text-gray-600 mb-6 inline-block"
+					className="text-sm text-gray-500 hover:text-gray-600 mb-6 inline-block"
 				>
 					← Inicio
 				</Link>

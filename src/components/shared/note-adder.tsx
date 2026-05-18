@@ -42,6 +42,7 @@ export function NoteAdder({ complaintId }: { complaintId: string }) {
 		<div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
 			<textarea
 				value={text}
+				name="note"
 				onChange={e => setText(e.target.value)}
 				rows={4}
 				maxLength={2000}
@@ -69,7 +70,7 @@ export function NoteAdder({ complaintId }: { complaintId: string }) {
 						<span className="text-gray-700">Visible al ciudadano</span>
 					</label>
 				</div>
-				<span className="text-xs text-gray-400">{text.length} / 2000</span>
+				<span className="text-xs text-gray-500">{text.length} / 2000</span>
 			</div>
 
 			{error && <p className="text-sm text-red-600">{error}</p>}

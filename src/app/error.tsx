@@ -39,7 +39,7 @@ export default function GlobalError({
 					El error ha sido registrado automáticamente.
 				</p>
 				{error.digest && (
-					<p className="text-xs font-mono text-gray-400 mb-6">
+					<p className="text-xs font-mono text-gray-500 mb-6">
 						ID: {error.digest}
 					</p>
 				)}

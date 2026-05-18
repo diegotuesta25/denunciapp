@@ -124,7 +124,10 @@ export function ComplaintForm() {
 				</p>
 				<div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6 inline-block">
 					<p className="text-sm text-blue-600 mb-1">Código de seguimiento</p>
-					<p className="text-3xl font-mono font-bold text-blue-900">
+					<p
+						data-testid="tracking-code"
+						className="text-3xl font-mono font-bold text-blue-900"
+					>
 						{trackingCode}
 					</p>
 				</div>
@@ -133,14 +136,14 @@ export function ComplaintForm() {
 					<p className="text-sm font-medium text-gray-700 mb-1">
 						¿Tienes fotos, videos o documentos relacionados?
 					</p>
-					<p className="text-xs text-gray-400 mb-3">
+					<p className="text-xs text-gray-500 mb-3">
 						Puedes adjuntarlos ahora o más tarde desde la sección de
 						seguimiento.
 					</p>
 					<EvidenceUploader complaintId={complaintId} />
 				</div>
 
-				<p className="text-sm text-gray-400 pt-5">
+				<p className="text-sm text-gray-500 pt-5">
 					Visita la sección de seguimiento e ingresa este código junto con los
 					últimos 4 dígitos de tu DNI.
 				</p>
@@ -153,7 +156,7 @@ export function ComplaintForm() {
 					</Link>
 					<Link
 						href="/"
-						className="text-sm text-gray-400 hover:text-gray-600 px-4 py-2 text-center"
+						className="text-sm text-gray-500 hover:text-gray-600 px-4 py-2 text-center"
 					>
 						Volver al inicio
 					</Link>
@@ -263,7 +266,7 @@ export function ComplaintForm() {
 							) : (
 								<span />
 							)}
-							<p className="text-xs text-gray-400">
+							<p className="text-xs text-gray-500">
 								{form.watch("narrative")?.length ?? 0} / 5000
 							</p>
 						</div>
@@ -314,7 +317,7 @@ export function ComplaintForm() {
 							className="block text-sm font-medium text-gray-700 mb-1"
 						>
 							Dirección específica{" "}
-							<span className="text-gray-400 font-normal">(opcional)</span>
+							<span className="text-gray-500 font-normal">(opcional)</span>
 						</label>
 						<input
 							id="locationAddress"
@@ -328,7 +331,7 @@ export function ComplaintForm() {
 								{form.formState.errors.locationAddress.message}
 							</p>
 						)}
-						<p className="text-xs text-gray-400 mt-1">
+						<p className="text-xs text-gray-500 mt-1">
 							Agrega más detalles si los conoces. En una próxima versión podrás
 							marcar la ubicación en un mapa.
 						</p>
@@ -388,7 +391,7 @@ export function ComplaintForm() {
 							className="block text-sm font-medium text-gray-700 mb-1"
 						>
 							Correo electrónico{" "}
-							<span className="text-gray-400">(opcional)</span>
+							<span className="text-gray-500">(opcional)</span>
 						</label>
 						<input
 							id="complainantEmail"
@@ -409,7 +412,7 @@ export function ComplaintForm() {
 							htmlFor="complainantPhone"
 							className="block text-sm font-medium text-gray-700 mb-1"
 						>
-							Teléfono <span className="text-gray-400">(opcional)</span>
+							Teléfono <span className="text-gray-500">(opcional)</span>
 						</label>
 						<input
 							id="complainantPhone"

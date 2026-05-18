@@ -152,7 +152,7 @@ export default async function HomePage() {
 				<div className="max-w-4xl mx-auto px-4 py-14">
 					<div className="grid md:grid-cols-2 gap-12 items-center">
 						<div>
-							<p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">
+							<p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
 								Contexto
 							</p>
 							<h2 className="text-2xl font-semibold text-gray-900 mb-4">
@@ -238,11 +238,11 @@ export default async function HomePage() {
 			{/* Footer */}
 			<footer className="max-w-6xl mx-auto px-4 py-8 mt-8 border-t border-gray-100">
 				<div className="flex flex-col md:flex-row items-center justify-between gap-4">
-					<p className="text-xs text-gray-400">
+					<p className="text-xs text-gray-500">
 						DenunciApp - Proyecto de cartera de Diego Tuesta. No es un sistema
 						oficial de la PNP.
 					</p>
-					<div className="flex items-center gap-4 text-xs text-gray-400">
+					<div className="flex items-center gap-4 text-xs text-gray-500">
 						<Link href="/estadisticas" className="hover:text-gray-600">
 							Estadísticas
 						</Link>

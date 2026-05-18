@@ -23,27 +23,38 @@ type SubmitResult = Result<{ trackingCode: string; complaintId: string }>;
 export async function submitComplaint(
 	formData: unknown,
 ): Promise<SubmitResult> {
+	const startTime = Date.now();
 	try {
 		const ip = await getIp();
-		const { success: rateLimitOk, remaining } =
-			await complaintSubmitLimiter.limit(ip);
-		if (!rateLimitOk) {
-			logger.warn({ action: "submitComplaint", ip }, "Rate limit exceeded");
-			return err(
-				"RATE_LIMITED",
-				`Has enviado demasiadas denuncias. Intenta nuevamente en una hora.`,
+
+		if (process.env.DISABLE_RATE_LIMIT !== "true") {
+			const { success, remaining } = await complaintSubmitLimiter.limit(ip);
+
+			logger.info(
+				{ action: "submitComplaint", ip, remaining },
+				"Rate limit check passed",
 			);
+
+			if (!success) {
+				logger.warn({ action: "submitComplaint", ip }, "Rate limit exceeded");
+				return err(
+					"RATE_LIMITED",
+					"Has enviado demasiadas denuncias. Intenta nuevamente en una hora.",
+				);
+			}
 		}
-		const data = complaintFormSchema.parse(formData);
+
+		const parsed = complaintFormSchema.safeParse(formData);
+		if (!parsed.success) {
+			return err("INVALID_INPUT", "Datos del formulario inválidos.");
+		}
+		const data = parsed.data;
+
 		const session = await auth();
 		const complaintId = uuid();
 		const trackingCode = generateTrackingCode();
 		const incidentAt = new Date(`${data.incidentDate}T${data.incidentTime}`);
 
-		logger.info(
-			{ action: "submitComplaint", ip, remaining },
-			"Rate limit check passed",
-		);
 		const genesisEvent = buildEvent({
 			complaintId,
 			eventType: "created",
@@ -99,11 +110,22 @@ export async function submitComplaint(
 			});
 		});
 
+		logger.info(
+			{
+				action: "submitComplaint",
+				complaintId,
+				trackingCode,
+				durationMs: Date.now() - startTime,
+			},
+			"Complaint submitted successfully",
+		);
+
 		return ok({ trackingCode, complaintId });
 	} catch (error) {
 		logger.error({
 			action: "submitComplaint",
 			error: String(error),
+			durationMs: Date.now() - startTime,
 		});
 
 		Sentry.captureException(error, {

@@ -77,7 +77,7 @@ function Pagination({
 
 	return (
 		<div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-100">
-			<p className="text-xs text-gray-400">
+			<p className="text-xs text-gray-500">
 				Página {currentPage} de {totalPages}
 			</p>
 
@@ -86,12 +86,12 @@ function Pagination({
 				{currentPage > 1 ? (
 					<Link
 						href={pageUrl(currentPage - 1)}
-						className="px-3 py-1.5 text-xs text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+						className="px-3 py-1.5 text-xs text-gray-500 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
 					>
 						← Anterior
 					</Link>
 				) : (
-					<span className="px-3 py-1.5 text-xs text-gray-300 border border-gray-100 rounded-lg cursor-not-allowed">
+					<span className="px-3 py-1.5 text-xs text-gray-500 border border-gray-200 rounded-lg cursor-not-allowed">
 						← Anterior
 					</span>
 				)}
@@ -102,7 +102,7 @@ function Pagination({
 						p === "..." ? (
 							<span
 								key={`ellipsis-${i}`}
-								className="px-2 py-1.5 text-xs text-gray-400"
+								className="px-2 py-1.5 text-xs text-gray-500"
 							>
 								...
 							</span>
@@ -131,7 +131,7 @@ function Pagination({
 						Siguiente →
 					</Link>
 				) : (
-					<span className="px-3 py-1.5 text-xs text-gray-300 border border-gray-100 rounded-lg cursor-not-allowed">
+					<span className="px-3 py-1.5 text-xs text-gray-400 border border-gray-100 rounded-lg cursor-not-allowed">
 						Siguiente →
 					</span>
 				)}
@@ -187,7 +187,7 @@ export default async function OfficerPage({
 				{/* Table */}
 				{rows.length === 0 ? (
 					<div className="bg-white rounded-xl border p-12 text-center">
-						<p className="text-gray-400 text-sm">
+						<p className="text-gray-500 text-sm">
 							{hasFilters
 								? "No se encontraron denuncias con los filtros aplicados."
 								: "No hay denuncias registradas."}
@@ -234,17 +234,17 @@ export default async function OfficerPage({
 											</td>
 											<td className="px-4 py-3 text-gray-900 whitespace-nowrap">
 												{complaint.complainantName ?? (
-													<span className="text-gray-300">—</span>
+													<span className="text-gray-400">—</span>
 												)}
 											</td>
 											<td className="px-4 py-3 font-mono text-gray-600 whitespace-nowrap">
 												{complaint.complainantDni ? (
 													<>
-														<span className="text-gray-300">••••</span>
+														<span className="text-gray-400">••••</span>
 														{complaint.complainantDni.slice(-4)}
 													</>
 												) : (
-													<span className="text-gray-300">—</span>
+													<span className="text-gray-400">—</span>
 												)}
 											</td>
 											<td className="px-4 py-3 text-gray-600 whitespace-nowrap">
@@ -262,10 +262,10 @@ export default async function OfficerPage({
 											</td>
 											<td className="px-4 py-3 text-gray-500 max-w-48 truncate">
 												{complaint.locationAddress ?? (
-													<span className="text-gray-300">—</span>
+													<span className="text-gray-400">—</span>
 												)}
 											</td>
-											<td className="px-4 py-3 text-gray-400 text-xs whitespace-nowrap">
+											<td className="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">
 												{new Date(complaint.createdAt).toLocaleDateString(
 													"es-PE",
 												)}
@@ -295,7 +295,7 @@ export default async function OfficerPage({
 
 				{/* Summary line */}
 				{rows.length > 0 && (
-					<p className="text-xs text-gray-400 text-center">
+					<p className="text-xs text-gray-500 text-center">
 						Mostrando {(currentPage - 1) * pageSize + 1}–
 						{Math.min(currentPage * pageSize, total)} de {total} denuncias
 					</p>

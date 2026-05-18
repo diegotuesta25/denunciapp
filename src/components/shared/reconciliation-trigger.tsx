@@ -27,7 +27,7 @@ export function ReconciliationTrigger() {
 				<h2 className="text-sm font-semibold text-gray-900">
 					Reconciliación de estados
 				</h2>
-				<p className="text-xs text-gray-400 mt-1">
+				<p className="text-xs text-gray-500 mt-1">
 					Verifica que el estado almacenado de cada denuncia coincida con lo que
 					indica la cadena de eventos.
 				</p>

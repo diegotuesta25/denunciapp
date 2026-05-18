@@ -38,7 +38,7 @@ export async function Navbar() {
 				<div className="flex items-center gap-2">
 					{session ? (
 						<div className="flex items-center gap-3">
-							<span className="text-xs text-gray-400 hidden md:block">
+							<span className="text-xs text-gray-500 hidden md:block">
 								{session.user.name ?? session.user.email}
 							</span>
 							<form

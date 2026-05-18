@@ -132,7 +132,7 @@ export function TrackingForm() {
 					</div>
 
 					<div>
-						<p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">
+						<p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
 							Historial
 						</p>
 						<ol className="space-y-3">
@@ -164,7 +164,7 @@ export function TrackingForm() {
 											<p className="text-sm font-medium text-gray-900">
 												{getEventLabel(event.eventType)}
 											</p>
-											<p className="text-xs text-gray-400 mt-0.5">
+											<p className="text-xs text-gray-500 mt-0.5">
 												{new Date(event.createdAt).toLocaleString("es-PE")}
 											</p>
 											{isPublicNote && (
@@ -172,7 +172,7 @@ export function TrackingForm() {
 													{payload.text as string}
 												</p>
 											)}
-											<p className="text-xs font-mono text-gray-300 mt-1">
+											<p className="text-xs font-mono text-gray-400 mt-1">
 												#{event.hash.slice(0, 8)}
 											</p>
 										</div>

@@ -74,7 +74,7 @@ export default async function ComplaintDetailPage({
 			<div className="max-w-4xl mx-auto px-4 py-8">
 				<Link
 					href="/officer"
-					className="text-sm text-gray-400 hover:text-gray-600 mb-6 inline-block"
+					className="text-sm text-gray-500 hover:text-gray-600 mb-6 inline-block"
 				>
 					← Volver al panel
 				</Link>
@@ -83,7 +83,7 @@ export default async function ComplaintDetailPage({
 				<div className="bg-white rounded-xl border p-6 mb-6">
 					<div className="flex items-start justify-between mb-4">
 						<div>
-							<p className="text-xs text-gray-400 font-mono mb-1">
+							<p className="text-xs text-gray-500 font-mono mb-1">
 								{complaint.trackingCode}
 							</p>
 							<h1 className="text-xl font-semibold text-gray-900">
@@ -122,32 +122,32 @@ export default async function ComplaintDetailPage({
 
 					{/* ── Complainant info ── */}
 					<div className="pt-4 border-t border-gray-100">
-						<p className="text-xs text-gray-400 uppercase tracking-wide mb-3">
+						<p className="text-xs text-gray-500 uppercase tracking-wide mb-3">
 							Denunciante
 						</p>
 						{complainant ? (
 							<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
 								<div>
-									<p className="text-xs text-gray-400 mb-0.5">Nombre</p>
+									<p className="text-xs text-gray-500 mb-0.5">Nombre</p>
 									<p className="text-sm font-medium text-gray-900 truncate">
 										{complainant.name}
 									</p>
 								</div>
 								<div>
-									<p className="text-xs text-gray-400 mb-0.5">DNI</p>
+									<p className="text-xs text-gray-500 mb-0.5">DNI</p>
 									<p className="text-sm font-mono text-gray-900">
 										{complainant.dni}
 									</p>
 								</div>
 								{complainant.phone && (
 									<div>
-										<p className="text-xs text-gray-400 mb-0.5">Teléfono</p>
+										<p className="text-xs text-gray-500 mb-0.5">Teléfono</p>
 										<p className="text-sm text-gray-900">{complainant.phone}</p>
 									</div>
 								)}
 								{complainant.email && (
 									<div>
-										<p className="text-xs text-gray-400 mb-0.5">Correo</p>
+										<p className="text-xs text-gray-500 mb-0.5">Correo</p>
 										<p className="text-sm text-gray-900 truncate">
 											{complainant.email}
 										</p>
@@ -155,7 +155,7 @@ export default async function ComplaintDetailPage({
 								)}
 							</div>
 						) : (
-							<p className="text-xs text-gray-400 italic">
+							<p className="text-xs text-gray-500 italic">
 								No hay datos del denunciante registrados.
 							</p>
 						)}
@@ -165,7 +165,7 @@ export default async function ComplaintDetailPage({
 					<div className="pt-4 mt-4 border-t border-gray-100">
 						<div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
 							<div>
-								<p className="text-xs text-gray-400 mb-0.5">
+								<p className="text-xs text-gray-500 mb-0.5">
 									Fecha del incidente
 								</p>
 								<p className="text-sm text-gray-900">
@@ -175,7 +175,7 @@ export default async function ComplaintDetailPage({
 								</p>
 							</div>
 							<div>
-								<p className="text-xs text-gray-400 mb-0.5">
+								<p className="text-xs text-gray-500 mb-0.5">
 									Fecha de registro
 								</p>
 								<p className="text-sm text-gray-900">
@@ -183,7 +183,7 @@ export default async function ComplaintDetailPage({
 								</p>
 							</div>
 							<div>
-								<p className="text-xs text-gray-400 mb-0.5">Subtipo</p>
+								<p className="text-xs text-gray-500 mb-0.5">Subtipo</p>
 								<p className="text-sm text-gray-900">
 									{complaint.subtype ?? "—"}
 								</p>
@@ -227,7 +227,7 @@ export default async function ComplaintDetailPage({
 					</h2>
 
 					{events.length === 0 ? (
-						<p className="text-xs text-gray-400 italic">
+						<p className="text-xs text-gray-500 italic">
 							No hay eventos registrados.
 						</p>
 					) : (
@@ -273,7 +273,7 @@ export default async function ComplaintDetailPage({
 													{EVENT_LABELS[event.eventType] ?? event.eventType}
 												</p>
 												{event.actorRole && (
-													<span className="text-xs text-gray-400">
+													<span className="text-xs text-gray-500">
 														por {event.actorRole}
 													</span>
 												)}
@@ -284,7 +284,7 @@ export default async function ComplaintDetailPage({
 												)}
 											</div>
 
-											<p className="text-xs text-gray-400 mt-0.5">
+											<p className="text-xs text-gray-500 mt-0.5">
 												{new Date(event.createdAt).toLocaleString("es-PE")}
 											</p>
 
@@ -309,7 +309,7 @@ export default async function ComplaintDetailPage({
 											)}
 
 											{/* Hash */}
-											<p className="text-xs font-mono text-gray-300 mt-1">
+											<p className="text-xs font-mono text-gray-400 mt-1">
 												{event.hash.slice(0, 16)}...
 											</p>
 										</div>

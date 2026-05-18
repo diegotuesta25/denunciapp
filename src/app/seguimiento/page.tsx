@@ -7,7 +7,7 @@ export default function TrackPage() {
 			<div className="max-w-lg mx-auto">
 				<Link
 					href="/"
-					className="text-sm text-gray-400 hover:text-gray-600 mb-6 inline-block"
+					className="text-sm text-gray-500 hover:text-gray-600 mb-6 inline-block"
 				>
 					← Inicio
 				</Link>

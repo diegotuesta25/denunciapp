@@ -32,7 +32,7 @@ export function StatusUpdater({ complaintId, currentStatus, userRole }: Props) {
 
 	if (validNextStatuses.length === 0) {
 		return (
-			<p className="text-xs text-gray-400 italic">
+			<p className="text-xs text-gray-500 italic">
 				Esta denuncia ya está en un estado final.
 			</p>
 		);
@@ -105,7 +105,7 @@ export function StatusUpdater({ complaintId, currentStatus, userRole }: Props) {
 
 			<div>
 				<label className="block text-sm font-medium text-gray-700 mb-2">
-					Motivo <span className="text-gray-400 font-normal">(opcional)</span>
+					Motivo <span className="text-gray-500 font-normal">(opcional)</span>
 				</label>
 				<textarea
 					value={reason}
@@ -115,7 +115,7 @@ export function StatusUpdater({ complaintId, currentStatus, userRole }: Props) {
 					placeholder="Ej: Se asigna a Unidad de Investigación Criminal..."
 					className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
 				/>
-				<p className="text-xs text-gray-400 mt-1">{reason.length} / 500</p>
+				<p className="text-xs text-gray-500 mt-1">{reason.length} / 500</p>
 			</div>
 
 			{error && (

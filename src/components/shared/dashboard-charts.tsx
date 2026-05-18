@@ -74,7 +74,7 @@ export function DashboardCharts({ data }: { data: DashboardData }) {
 		<div className="space-y-6">
 			<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 				<div className="bg-white rounded-xl border p-5">
-					<p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+					<p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
 						Total denuncias
 					</p>
 					<p className="text-3xl font-semibold text-gray-900">
@@ -82,29 +82,29 @@ export function DashboardCharts({ data }: { data: DashboardData }) {
 					</p>
 				</div>
 				<div className="bg-white rounded-xl border p-5">
-					<p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+					<p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
 						Tipo más frecuente
 					</p>
 					<p className="text-lg font-semibold text-gray-900">
 						{TYPE_LABELS[data.typeCounts[0]?.type] ?? "—"}
 					</p>
-					<p className="text-sm text-gray-400">
+					<p className="text-sm text-gray-500">
 						{data.typeCounts[0]?.count} casos
 					</p>
 				</div>
 				<div className="bg-white rounded-xl border p-5">
-					<p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+					<p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
 						Distrito más afectado
 					</p>
 					<p className="text-lg font-semibold text-gray-900">
 						{topDistricts[0]?.districtName ?? "—"}
 					</p>
-					<p className="text-sm text-gray-400">
+					<p className="text-sm text-gray-500">
 						{topDistricts[0]?.count} casos
 					</p>
 				</div>
 				<div className="bg-white rounded-xl border p-5">
-					<p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+					<p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
 						Distritos con actividad
 					</p>
 					<p className="text-3xl font-semibold text-gray-900">
@@ -162,7 +162,7 @@ export function DashboardCharts({ data }: { data: DashboardData }) {
 				</ResponsiveContainer>
 			</div>
 
-			<p className="text-xs text-gray-400 text-center pb-4">
+			<p className="text-xs text-gray-500 text-center pb-4">
 				Datos anonimizados. No incluye información personal de los denunciantes.
 				Fuente: DenunciApp - actualizado cada hora.
 			</p>

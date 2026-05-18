@@ -150,7 +150,7 @@ export function EvidenceUploader({ complaintId, onUploadComplete }: Props) {
 					<div className="space-y-2">
 						<div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
 							<svg
-								className="w-5 h-5 text-gray-400"
+								className="w-5 h-5 text-gray-500"
 								fill="none"
 								viewBox="0 0 24 24"
 								stroke="currentColor"
@@ -166,7 +166,7 @@ export function EvidenceUploader({ complaintId, onUploadComplete }: Props) {
 						<p className="text-sm text-gray-600">
 							Haz clic para adjuntar evidencia
 						</p>
-						<p className="text-xs text-gray-400">
+						<p className="text-xs text-gray-500">
 							Imágenes, PDF, audio, video — máx. {MAX_SIZE_MB}MB
 						</p>
 					</div>
@@ -216,7 +216,7 @@ export function EvidenceUploader({ complaintId, onUploadComplete }: Props) {
 						<p className="text-sm text-green-700 font-medium">
 							{uploadState.fileName} adjuntado
 						</p>
-						<p className="text-xs text-gray-400">
+						<p className="text-xs text-gray-500">
 							Clic para adjuntar otro archivo
 						</p>
 					</div>

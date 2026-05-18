@@ -101,7 +101,7 @@ export function VerifyForm() {
 					{/* Metadata */}
 					<dl className="grid grid-cols-2 gap-4 text-sm">
 						<div>
-							<dt className="text-gray-400 text-xs uppercase tracking-wide mb-1">
+							<dt className="text-gray-500 text-xs uppercase tracking-wide mb-1">
 								Código
 							</dt>
 							<dd className="font-mono text-gray-900 font-medium">
@@ -109,13 +109,13 @@ export function VerifyForm() {
 							</dd>
 						</div>
 						<div>
-							<dt className="text-gray-400 text-xs uppercase tracking-wide mb-1">
+							<dt className="text-gray-500 text-xs uppercase tracking-wide mb-1">
 								Eventos
 							</dt>
 							<dd className="text-gray-900 font-medium">{result.eventCount}</dd>
 						</div>
 						<div>
-							<dt className="text-gray-400 text-xs uppercase tracking-wide mb-1">
+							<dt className="text-gray-500 text-xs uppercase tracking-wide mb-1">
 								Primer evento
 							</dt>
 							<dd className="text-gray-700">
@@ -123,7 +123,7 @@ export function VerifyForm() {
 							</dd>
 						</div>
 						<div>
-							<dt className="text-gray-400 text-xs uppercase tracking-wide mb-1">
+							<dt className="text-gray-500 text-xs uppercase tracking-wide mb-1">
 								Último evento
 							</dt>
 							<dd className="text-gray-700">
@@ -132,7 +132,7 @@ export function VerifyForm() {
 						</div>
 					</dl>
 
-					<p className="text-xs text-gray-400 pt-4 border-t">
+					<p className="text-xs text-gray-500 pt-4 border-t">
 						Esta verificación se realiza recalculando los hashes SHA-256 de cada
 						evento y comparándolos con los almacenados en la cadena. Si algún
 						evento ha sido modificado después de su creación, la cadena se rompe

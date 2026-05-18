@@ -51,6 +51,7 @@ export function ComplaintFilters() {
 			<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
 				<input
 					type="text"
+					aria-label="Filtrar por codigo"
 					placeholder="Código (DEN-XXXXX)"
 					defaultValue={searchParams.get("trackingCode") ?? ""}
 					onChange={e => updateFilter("trackingCode", e.target.value)}
@@ -58,6 +59,7 @@ export function ComplaintFilters() {
 				/>
 				<input
 					type="text"
+					aria-label="Filtrar por nombre del denunciante"
 					placeholder="Nombre del denunciante"
 					defaultValue={searchParams.get("complainantName") ?? ""}
 					onChange={e => updateFilter("complainantName", e.target.value)}
@@ -66,6 +68,7 @@ export function ComplaintFilters() {
 				<input
 					type="text"
 					placeholder="DNI"
+					aria-label="Filtrar por dni de denunciante"
 					defaultValue={searchParams.get("complainantDni") ?? ""}
 					onChange={e => updateFilter("complainantDni", e.target.value)}
 					maxLength={8}
@@ -77,6 +80,7 @@ export function ComplaintFilters() {
 			<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
 				<select
 					value={searchParams.get("status") ?? ""}
+					aria-label="Filtrar por estado"
 					onChange={e => updateFilter("status", e.target.value)}
 					className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 				>
@@ -89,6 +93,7 @@ export function ComplaintFilters() {
 
 				<select
 					value={searchParams.get("type") ?? ""}
+					aria-label="Filtrar por tipo de denuncia"
 					onChange={e => updateFilter("type", e.target.value)}
 					className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 				>
@@ -101,12 +106,14 @@ export function ComplaintFilters() {
 
 				<input
 					type="date"
+					aria-label="Fecha desde"
 					value={searchParams.get("dateFrom") ?? ""}
 					onChange={e => updateFilter("dateFrom", e.target.value)}
 					className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 				/>
 				<input
 					type="date"
+					aria-label="Fecha hasta"
 					value={searchParams.get("dateTo") ?? ""}
 					onChange={e => updateFilter("dateTo", e.target.value)}
 					className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -117,7 +124,7 @@ export function ComplaintFilters() {
 			{hasFilters && (
 				<button
 					onClick={clearAll}
-					className="text-xs text-gray-400 hover:text-gray-600 underline"
+					className="text-xs text-gray-500 hover:text-gray-600 underline"
 				>
 					Limpiar filtros
 				</button>

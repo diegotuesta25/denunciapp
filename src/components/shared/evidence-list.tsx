@@ -41,7 +41,7 @@ export function EvidenceList({
 
 	if (loading) {
 		return (
-			<p className="text-xs text-gray-400 animate-pulse">
+			<p className="text-xs text-gray-500 animate-pulse">
 				Cargando evidencia...
 			</p>
 		);
@@ -49,7 +49,7 @@ export function EvidenceList({
 
 	if (items.length === 0) {
 		return (
-			<p className="text-xs text-gray-400 italic">No hay evidencia adjunta.</p>
+			<p className="text-xs text-gray-500 italic">No hay evidencia adjunta.</p>
 		);
 	}
 
@@ -68,7 +68,7 @@ export function EvidenceList({
 							<p className="text-sm font-medium text-gray-900 truncate">
 								{item.fileName}
 							</p>
-							<p className="text-xs text-gray-400">
+							<p className="text-xs text-gray-500">
 								{formatBytes(item.fileSize)} ·{" "}
 								{new Date(item.createdAt).toLocaleDateString("es-PE")}
 							</p>
@@ -77,7 +77,7 @@ export function EvidenceList({
 					<div className="flex items-center gap-2 shrink-0">
 						{/* Hash — shortened, for auditability */}
 						<span
-							className="text-xs font-mono text-gray-300 hidden sm:block"
+							className="text-xs font-mono text-gray-400 hidden sm:block"
 							title={`SHA-256: ${item.sha256Hash}`}
 						>
 							#{item.sha256Hash.slice(0, 8)}

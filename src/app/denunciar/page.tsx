@@ -16,7 +16,7 @@ export default function DenunciarPage() {
 				</div>
 				<Link
 					href="/"
-					className="text-sm text-gray-400 hover:text-gray-600 mb-6 inline-block"
+					className="text-sm text-gray-500 hover:text-gray-600 mb-6 inline-block"
 				>
 					← Inicio
 				</Link>

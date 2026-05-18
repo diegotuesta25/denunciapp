@@ -17,7 +17,7 @@ export function EvidenceSection({ complaintId }: Props) {
 			<EvidenceList complaintId={complaintId} refreshKey={refreshKey} />
 
 			<div className="pt-4 border-t">
-				<p className="text-xs text-gray-400 mb-3">Adjuntar nueva evidencia</p>
+				<p className="text-xs text-gray-500 mb-3">Adjuntar nueva evidencia</p>
 				<EvidenceUploader
 					complaintId={complaintId}
 					onUploadComplete={() => setRefreshKey(k => k + 1)}
