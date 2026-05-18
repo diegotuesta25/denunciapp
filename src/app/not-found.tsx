@@ -19,7 +19,7 @@ export default function NotFound() {
 						Volver al inicio
 					</Link>
 					<Link
-						href="/track"
+						href="/seguimiento"
 						className="px-4 py-2 border border-gray-200 text-gray-600 text-sm rounded-lg hover:bg-gray-50 transition-colors"
 					>
 						Consultar denuncia

@@ -1,5 +1,5 @@
 import { DashboardCharts } from "@/components/shared/dashboard-charts";
-import { DashboardClient } from "@/components/shared/dashboard-client";
+import { DashboardMap } from "@/components/shared/dashboard-map";
 import Link from "next/link";
 
 export const revalidate = 3600;
@@ -16,6 +16,7 @@ async function getDashboardData() {
 export default async function DashboardPage() {
 	const data = await getDashboardData();
 
+	console.log(data);
 	return (
 		<div className="min-h-screen bg-gray-50">
 			<div className="max-w-6xl mx-auto px-4 py-10">
@@ -45,7 +46,7 @@ export default async function DashboardPage() {
 						</p>
 					</div>
 
-					<DashboardClient data={data} />
+					<DashboardMap data={data} />
 				</div>
 				<DashboardCharts data={data} />
 			</div>

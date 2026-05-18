@@ -6,10 +6,6 @@ import {
 	YAxis,
 	Tooltip,
 	ResponsiveContainer,
-	LineChart,
-	Line,
-	Legend,
-	CartesianGrid,
 } from "recharts";
 
 const TYPE_LABELS: Record<string, string> = {
@@ -166,34 +162,9 @@ export function DashboardCharts({ data }: { data: DashboardData }) {
 				</ResponsiveContainer>
 			</div>
 
-			<div className="bg-white rounded-xl border p-6">
-				<h2 className="text-sm font-medium text-gray-700 mb-6">
-					Tendencia mensual — últimos 6 meses
-				</h2>
-				<ResponsiveContainer width="100%" height={280}>
-					<LineChart data={trendData}>
-						<CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-						<XAxis dataKey="month" tick={{ fontSize: 11 }} />
-						<YAxis tick={{ fontSize: 12 }} />
-						<Tooltip />
-						<Legend formatter={value => TYPE_LABELS[value] ?? value} />
-						{types.map(type => (
-							<Line
-								key={type}
-								type="monotone"
-								dataKey={type}
-								stroke={TYPE_COLORS[type] ?? "#6b7280"}
-								strokeWidth={2}
-								dot={false}
-							/>
-						))}
-					</LineChart>
-				</ResponsiveContainer>
-			</div>
-
 			<p className="text-xs text-gray-400 text-center pb-4">
 				Datos anonimizados. No incluye información personal de los denunciantes.
-				Fuente: DenunciApp — actualizado cada hora.
+				Fuente: DenunciApp - actualizado cada hora.
 			</p>
 		</div>
 	);

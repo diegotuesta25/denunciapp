@@ -69,6 +69,7 @@ export async function submitComplaint(
 				narrativeOriginal: data.narrative,
 				narrativeFinal: data.narrative,
 				locationAddress: data.locationAddress,
+				jurisdictionId: data.jurisdictionId,
 				incidentAt,
 				currentHash: genesisEvent.hash,
 			});

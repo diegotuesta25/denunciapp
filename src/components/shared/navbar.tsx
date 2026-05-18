@@ -29,9 +29,9 @@ export async function Navbar() {
 				</Link>
 
 				<nav className="hidden md:flex items-center gap-1">
-					<NavLink href="/dashboard">Estadísticas</NavLink>
-					<NavLink href="/track">Seguimiento</NavLink>
-					<NavLink href="/verify">Verificar</NavLink>
+					<NavLink href="/estadisticas">Estadísticas</NavLink>
+					<NavLink href="/seguimiento">Seguimiento</NavLink>
+					<NavLink href="/verificar">Verificar</NavLink>
 					{isOfficer && <NavLink href="/officer">Consola</NavLink>}
 				</nav>
 
@@ -68,7 +68,7 @@ export async function Navbar() {
 						href="/denunciar"
 						className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition-colors font-medium"
 					>
-						Hacer denuncia
+						Registrar denuncia
 					</Link>
 				</div>
 			</div>

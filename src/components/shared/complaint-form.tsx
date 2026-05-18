@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StepIndicator } from "./step-indicator";
@@ -8,9 +8,12 @@ import {
 	complaintFormSchema,
 	type ComplaintFormData,
 } from "@/lib/validations/complaint";
+import {
+	getDistrictJurisdictions,
+	type JurisdictionOption,
+} from "@/server/actions/get-jurisdictions";
 import Link from "next/link";
 import { EvidenceUploader } from "./evidence-uploader";
-import { LIMA_DISTRICTS } from "@/lib/constants/lima-districts";
 
 const COMPLAINT_TYPES = [
 	{ value: "patrimonio", label: "Contra el patrimonio (robo, hurto, estafa)" },
@@ -33,6 +36,16 @@ export function ComplaintForm() {
 	const [complaintId, setComplaintId] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
+	const [districts, setDistricts] = useState<JurisdictionOption[]>([]);
+	const [loadingDistricts, setLoadingDistricts] = useState(true);
+
+	// Fetch districts once on mount
+	useEffect(() => {
+		getDistrictJurisdictions().then(data => {
+			setDistricts(data);
+			setLoadingDistricts(false);
+		});
+	}, []);
 
 	const form = useForm<ComplaintFormData>({
 		resolver: zodResolver(complaintFormSchema),
@@ -43,6 +56,7 @@ export function ComplaintForm() {
 			incidentDate: "",
 			incidentTime: "",
 			narrative: "",
+			jurisdictionId: "",
 			locationAddress: "",
 			complainantName: "",
 			complainantDni: "",
@@ -60,14 +74,14 @@ export function ComplaintForm() {
 				{ shouldFocus: true },
 			);
 		} else if (currentStep === 2) {
-			isValid = await form.trigger(["locationAddress"], {
+			isValid = await form.trigger(["jurisdictionId", "locationAddress"], {
 				shouldFocus: true,
 			});
 		}
 
 		if (isValid) setCurrentStep(s => (s + 1) as FormStep);
 	}
-	console.log("complaintId being passed:", complaintId);
+
 	async function handleSubmit(data: ComplaintFormData) {
 		setIsSubmitting(true);
 		setSubmitError(null);
@@ -115,6 +129,7 @@ export function ComplaintForm() {
 						{trackingCode}
 					</p>
 				</div>
+
 				<div className="mt-8 text-left border-t pt-6">
 					<p className="text-sm font-medium text-gray-700 mb-1">
 						¿Tienes fotos, videos o documentos relacionados?
@@ -123,17 +138,16 @@ export function ComplaintForm() {
 						Puedes adjuntarlos ahora o más tarde desde la sección de
 						seguimiento.
 					</p>
-
 					<EvidenceUploader complaintId={complaintId} />
 				</div>
+
 				<p className="text-sm text-gray-400 pt-5">
 					Visita la sección de seguimiento e ingresa este código junto con los
 					últimos 4 dígitos de tu DNI.
 				</p>
-
 				<div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
 					<Link
-						href={`/track`}
+						href="/track"
 						className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 text-center"
 					>
 						Consultar estado de mi denuncia
@@ -161,12 +175,16 @@ export function ComplaintForm() {
 			{currentStep === 1 && (
 				<div className="space-y-4">
 					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="type"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Tipo de denuncia <span className="text-red-500">*</span>
 						</label>
 						<select
+							id="type"
 							{...form.register("type")}
-							className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+							className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
 						>
 							<option value="">Selecciona una opción</option>
 							{COMPLAINT_TYPES.map(t => (
@@ -184,10 +202,14 @@ export function ComplaintForm() {
 
 					<div className="grid grid-cols-2 gap-4">
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-1">
+							<label
+								htmlFor="incidentDate"
+								className="block text-sm font-medium text-gray-700 mb-1"
+							>
 								Fecha del incidente <span className="text-red-500">*</span>
 							</label>
 							<input
+								id="incidentDate"
 								type="date"
 								{...form.register("incidentDate")}
 								max={new Date().toISOString().split("T")[0]}
@@ -200,10 +222,14 @@ export function ComplaintForm() {
 							)}
 						</div>
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-1">
+							<label
+								htmlFor="incidentTime"
+								className="block text-sm font-medium text-gray-700 mb-1"
+							>
 								Hora aproximada <span className="text-red-500">*</span>
 							</label>
 							<input
+								id="incidentTime"
 								type="time"
 								{...form.register("incidentTime")}
 								className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -217,10 +243,14 @@ export function ComplaintForm() {
 					</div>
 
 					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="narrative"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Descripción de los hechos <span className="text-red-500">*</span>
 						</label>
 						<textarea
+							id="narrative"
 							{...form.register("narrative")}
 							rows={6}
 							placeholder="Describe lo que ocurrió con el mayor detalle posible: qué pasó, cuándo, dónde, quiénes estuvieron involucrados..."
@@ -245,15 +275,53 @@ export function ComplaintForm() {
 			{/* ── Step 2 — Location ── */}
 			{currentStep === 2 && (
 				<div className="space-y-4">
+					{/* District dropdown — pulls from jurisdictions table */}
 					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">
-							Dirección donde ocurrió el incidente{" "}
+						<label
+							htmlFor="jurisdictionId"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
+							Distrito donde ocurrió el incidente{" "}
 							<span className="text-red-500">*</span>
 						</label>
+						<select
+							id="jurisdictionId"
+							{...form.register("jurisdictionId")}
+							disabled={loadingDistricts}
+							className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:opacity-50"
+						>
+							<option value="">
+								{loadingDistricts
+									? "Cargando distritos..."
+									: "Selecciona un distrito"}
+							</option>
+							{districts.map(d => (
+								<option key={d.id} value={d.id}>
+									{d.name}
+								</option>
+							))}
+						</select>
+						{form.formState.errors.jurisdictionId && (
+							<p className="text-red-500 text-xs mt-1">
+								{form.formState.errors.jurisdictionId.message}
+							</p>
+						)}
+					</div>
+
+					{/* Address — free text detail within the district */}
+					<div>
+						<label
+							htmlFor="locationAddress"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
+							Dirección específica{" "}
+							<span className="text-gray-400 font-normal">(opcional)</span>
+						</label>
 						<input
+							id="locationAddress"
 							type="text"
 							{...form.register("locationAddress")}
-							placeholder="Ej: Av. Abancay 123, Cercado de Lima"
+							placeholder="Ej: Av. Abancay 123, frente al mercado"
 							className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 						/>
 						{form.formState.errors.locationAddress && (
@@ -261,12 +329,11 @@ export function ComplaintForm() {
 								{form.formState.errors.locationAddress.message}
 							</p>
 						)}
+						<p className="text-xs text-gray-400 mt-1">
+							Agrega más detalles si los conoces. En una próxima versión podrás
+							marcar la ubicación en un mapa.
+						</p>
 					</div>
-
-					<p className="text-xs text-gray-400">
-						Sé lo más específico posible. En una próxima versión podrás marcar
-						la ubicación en un mapa.
-					</p>
 				</div>
 			)}
 
@@ -274,10 +341,14 @@ export function ComplaintForm() {
 			{currentStep === 3 && (
 				<div className="space-y-4">
 					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="complainantName"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Nombre completo <span className="text-red-500">*</span>
 						</label>
 						<input
+							id="complainantName"
 							type="text"
 							{...form.register("complainantName")}
 							placeholder="Nombres y apellidos completos"
@@ -291,10 +362,14 @@ export function ComplaintForm() {
 					</div>
 
 					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="complainantDni"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							DNI <span className="text-red-500">*</span>
 						</label>
 						<input
+							id="complainantDni"
 							type="text"
 							{...form.register("complainantDni")}
 							placeholder="12345678"
@@ -309,11 +384,15 @@ export function ComplaintForm() {
 					</div>
 
 					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="complainantEmail"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Correo electrónico{" "}
 							<span className="text-gray-400">(opcional)</span>
 						</label>
 						<input
+							id="complainantEmail"
 							type="email"
 							{...form.register("complainantEmail")}
 							placeholder="para recibir actualizaciones de tu denuncia"
@@ -327,10 +406,14 @@ export function ComplaintForm() {
 					</div>
 
 					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="complainantPhone"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Teléfono <span className="text-gray-400">(opcional)</span>
 						</label>
 						<input
+							id="complainantPhone"
 							type="tel"
 							{...form.register("complainantPhone")}
 							placeholder="987654321"

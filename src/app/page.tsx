@@ -38,7 +38,7 @@ export default async function HomePage() {
 							Registrar una denuncia
 						</Link>
 						<Link
-							href="/track"
+							href="/seguimiento"
 							className="bg-white text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-200 hover:bg-gray-50 transition-colors"
 						>
 							Consultar mi denuncia
@@ -73,7 +73,7 @@ export default async function HomePage() {
 							Cualquier alteración posterior es detectable públicamente.
 						</p>
 						<Link
-							href="/verify"
+							href="/verificar"
 							className="text-xs text-blue-600 hover:underline mt-3 inline-block"
 						>
 							Verificar una denuncia →
@@ -110,7 +110,7 @@ export default async function HomePage() {
 							las notas públicas del oficial asignado.
 						</p>
 						<Link
-							href="/track"
+							href="/seguimiento"
 							className="text-xs text-blue-600 hover:underline mt-3 inline-block"
 						>
 							Consultar estado →
@@ -136,10 +136,10 @@ export default async function HomePage() {
 						<h3 className="font-semibold text-gray-900 mb-2">Datos abiertos</h3>
 						<p className="text-sm text-gray-500 leading-relaxed">
 							Estadísticas de criminalidad por distrito, tipo de delito y
-							tendencia mensual — anonimizadas y accesibles para todos.
+							tendencia mensual; anonimizadas y accesibles para todos.
 						</p>
 						<Link
-							href="/dashboard"
+							href="/estadisticas"
 							className="text-xs text-blue-600 hover:underline mt-3 inline-block"
 						>
 							Ver estadísticas →
@@ -160,7 +160,7 @@ export default async function HomePage() {
 							</h2>
 							<p className="text-gray-500 text-sm leading-relaxed mb-4">
 								SIDPOL, el sistema digital de denuncias de la PNP desde 2006,
-								clasificó todos sus datos como reservados en agosto de 2025 —
+								clasificó todos sus datos como reservados en agosto de 2025,
 								quitando el acceso público a información que debería ser
 								transparente.
 							</p>
@@ -239,17 +239,17 @@ export default async function HomePage() {
 			<footer className="max-w-6xl mx-auto px-4 py-8 mt-8 border-t border-gray-100">
 				<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 					<p className="text-xs text-gray-400">
-						DenunciApp — Proyecto de cartera de Diego Tuesta. No es un sistema
+						DenunciApp - Proyecto de cartera de Diego Tuesta. No es un sistema
 						oficial de la PNP.
 					</p>
 					<div className="flex items-center gap-4 text-xs text-gray-400">
-						<Link href="/dashboard" className="hover:text-gray-600">
+						<Link href="/estadisticas" className="hover:text-gray-600">
 							Estadísticas
 						</Link>
-						<Link href="/verify" className="hover:text-gray-600">
+						<Link href="/verificar" className="hover:text-gray-600">
 							Verificar
 						</Link>
-						<Link href="/track" className="hover:text-gray-600">
+						<Link href="/seguimiento" className="hover:text-gray-600">
 							Seguimiento
 						</Link>
 						<a

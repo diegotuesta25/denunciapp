@@ -1,4 +1,5 @@
 import { signIn } from "@/auth";
+import { loginAsDemoOfficer } from "@/server/actions/demo-login";
 
 export default async function SignInPage({
 	searchParams,
@@ -53,6 +54,30 @@ export default async function SignInPage({
 						Enviar enlace de acceso
 					</button>
 				</form>
+				{process.env.NEXT_PUBLIC_DEMO_MODE === "true" && (
+					<div className="mt-8 pt-8 border-t border-gray-100">
+						<p className="text-xs text-gray-400 uppercase tracking-wide text-center mb-3">
+							¿Eres reclutador o quieres explorar?
+						</p>
+						<form action={loginAsDemoOfficer}>
+							<button
+								type="submit"
+								className="w-full text-left px-4 py-3 cursor-pointer rounded-xl border border-blue-200 bg-blue-50 hover:bg-blue-100 transition-colors"
+							>
+								<p className="text-sm font-medium text-blue-900">
+									Ingresar como Suboficial (DEMO)
+								</p>
+								<p className="text-xs text-blue-600 mt-0.5">
+									Acceso instantáneo a la consola del oficial, sin registro ni
+									correo.
+								</p>
+							</button>
+						</form>
+						<p className="text-xs text-gray-300 text-center mt-3">
+							Los datos de demostración son ficticios.
+						</p>
+					</div>
+				)}
 			</div>
 		</div>
 	);
