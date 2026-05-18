@@ -21,7 +21,7 @@ function getFileIcon(mimeType: string): string {
 
 type EvidenceListProps = {
 	complaintId: string;
-	refreshKey?: number; // ← add this
+	refreshKey?: number;
 };
 
 export function EvidenceList({

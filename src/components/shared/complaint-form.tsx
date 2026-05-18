@@ -10,6 +10,7 @@ import {
 } from "@/lib/validations/complaint";
 import Link from "next/link";
 import { EvidenceUploader } from "./evidence-uploader";
+import { LIMA_DISTRICTS } from "@/lib/constants/lima-districts";
 
 const COMPLAINT_TYPES = [
 	{ value: "patrimonio", label: "Contra el patrimonio (robo, hurto, estafa)" },
@@ -59,7 +60,9 @@ export function ComplaintForm() {
 				{ shouldFocus: true },
 			);
 		} else if (currentStep === 2) {
-			isValid = await form.trigger(["locationAddress"], { shouldFocus: true });
+			isValid = await form.trigger(["locationAddress"], {
+				shouldFocus: true,
+			});
 		}
 
 		if (isValid) setCurrentStep(s => (s + 1) as FormStep);
@@ -259,6 +262,7 @@ export function ComplaintForm() {
 							</p>
 						)}
 					</div>
+
 					<p className="text-xs text-gray-400">
 						Sé lo más específico posible. En una próxima versión podrás marcar
 						la ubicación en un mapa.

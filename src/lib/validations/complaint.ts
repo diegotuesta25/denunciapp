@@ -35,6 +35,7 @@ export const step2Schema = z.object({
 	locationAddress: z.string().min(5, "Ingresa una dirección válida"),
 	locationLat: z.number().optional(),
 	locationLng: z.number().optional(),
+	district: z.string().min(1, "Selecciona un distrito"),
 });
 
 export const step3Schema = z.object({

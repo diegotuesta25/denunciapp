@@ -1,4 +1,5 @@
 import { DashboardCharts } from "@/components/shared/dashboard-charts";
+import { DashboardClient } from "@/components/shared/dashboard-client";
 import Link from "next/link";
 
 export const revalidate = 3600;
@@ -32,6 +33,19 @@ export default async function DashboardPage() {
 						Datos agregados y anonimizados de denuncias registradas en Lima
 						Metropolitana. Actualizado cada hora.
 					</p>
+				</div>
+				<div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+					<div>
+						<h1 className="text-2xl font-bold text-gray-900">
+							Transparencia — Mapa de Denuncias
+						</h1>
+						<p className="text-sm text-gray-500 mt-1">
+							Datos anonimizados. Distritos con menos de 5 denuncias no se
+							muestran.
+						</p>
+					</div>
+
+					<DashboardClient data={data} />
 				</div>
 				<DashboardCharts data={data} />
 			</div>

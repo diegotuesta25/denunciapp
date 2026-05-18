@@ -33,7 +33,7 @@ type UploadState =
 	| { status: "error"; message: string };
 
 type Props = {
-	complaintId: string;
+	complaintId: string | null;
 	onUploadComplete?: (evidenceId: string) => void;
 };
 
