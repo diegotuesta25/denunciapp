@@ -1,4 +1,10 @@
 "use client";
+import {
+	DashboardData,
+	DistrictCount,
+	MonthlyTrend,
+	TypeCount,
+} from "@/lib/definitions";
 import { useState, useEffect } from "react";
 import {
 	BarChart,
@@ -40,29 +46,6 @@ const TYPE_COLORS: Record<string, string> = {
 	transito: "#06b6d4",
 	familia: "#ec4899",
 	falta: "#6b7280",
-};
-
-type DistrictCount = {
-	districtName: string;
-	count: number;
-	ubigeo: string;
-};
-
-type TypeCount = {
-	type: string;
-	count: number;
-};
-
-type MonthlyTrend = {
-	month: string;
-	type: string;
-	count: number;
-};
-
-type DashboardData = {
-	districtCounts: DistrictCount[];
-	typeCounts: TypeCount[];
-	monthlyTrend: MonthlyTrend[];
 };
 
 export function DashboardCharts({ data }: { data: DashboardData }) {

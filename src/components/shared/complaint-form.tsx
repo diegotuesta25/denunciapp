@@ -149,7 +149,7 @@ export function ComplaintForm() {
 				</p>
 				<div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
 					<Link
-						href="/track"
+						href="/seguimiento"
 						className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 text-center"
 					>
 						Consultar estado de mi denuncia

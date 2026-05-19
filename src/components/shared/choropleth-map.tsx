@@ -1,15 +1,9 @@
 "use client";
+import { DistrictCount } from "@/lib/definitions";
 import { normalize } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 
-type DistrictCount = {
-	jurisdictionId: string;
-	districtName: string;
-	ubigeo: string;
-	count: number;
-};
-
-type Props = {
+type ChoroplethMapProps = {
 	districtCounts: DistrictCount[];
 	onDistrictClick?: (district: string | null) => void;
 	selectedDistrict?: string | null;
@@ -19,7 +13,7 @@ export function ChoroplethMap({
 	districtCounts,
 	onDistrictClick,
 	selectedDistrict,
-}: Props) {
+}: ChoroplethMapProps) {
 	const mapContainer = useRef<HTMLDivElement>(null);
 	const mapRef = useRef<any>(null);
 	const initializingRef = useRef(false);

@@ -2,39 +2,15 @@
 import { useState } from "react";
 import { ChoroplethMap } from "./choropleth-map";
 import { normalize } from "@/lib/utils";
-
-type DistrictCount = {
-	jurisdictionId: string;
-	districtName: string;
-	ubigeo: string;
-	count: number;
-};
-
-type TypeCount = {
-	type: string;
-	count: number;
-};
-
-type MonthlyTrend = {
-	month: string;
-	type: string;
-	count: number;
-};
-
-type DashboardData = {
-	districtCounts: DistrictCount[];
-	typeCounts: TypeCount[];
-	monthlyTrend: MonthlyTrend[];
-};
+import { DashboardData } from "@/lib/definitions";
 
 export function DashboardMap({ data }: { data: DashboardData }) {
 	const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
 
 	const filtered = selectedDistrict
-		? data.districtCounts.filter(d => {
-				console.log(d);
-				return normalize(d.districtName) === normalize(selectedDistrict);
-			})
+		? data.districtCounts.filter(
+				d => normalize(d.districtName ?? "") === normalize(selectedDistrict),
+			)
 		: data.districtCounts;
 
 	return (
