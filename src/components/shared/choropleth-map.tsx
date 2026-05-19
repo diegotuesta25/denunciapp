@@ -19,7 +19,7 @@ export function ChoroplethMap({
 	const initializingRef = useRef(false);
 
 	const countByDistrict = Object.fromEntries(
-		districtCounts.map(d => [normalize(d.districtName), d.count]),
+		districtCounts.map(d => [normalize(d.districtName ?? ""), d.count]),
 	);
 
 	const maxCount = Math.max(...districtCounts.map(d => d.count), 1);
