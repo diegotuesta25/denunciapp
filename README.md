@@ -1,6 +1,6 @@
 # DenunciApp
 
-> A modern, citizen-first police complaint platform for Peru — built as a portfolio project to demonstrate what transparent, tamper-evident civic infrastructure could look like.
+> A modern, citizen-first police complaint platform for Peru, built as a portfolio project to demonstrate what transparent, tamper-evident civic infrastructure could look like.
 
 **[Live demo](https://denunciapp.vercel.app/)**
 &nbsp;·&nbsp;
