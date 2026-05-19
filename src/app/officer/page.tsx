@@ -33,7 +33,6 @@ function Pagination({
 }) {
 	if (totalPages <= 1) return null;
 
-	// Build a URL with updated page, preserving all other filters
 	function pageUrl(page: number) {
 		const params = new URLSearchParams();
 		if (searchParams.status) params.set("status", searchParams.status);
@@ -50,7 +49,6 @@ function Pagination({
 		return `/officer?${params.toString()}`;
 	}
 
-	// Generate page numbers to show — always show first, last, current ± 1
 	function getPageNumbers(): (number | "...")[] {
 		const pages: (number | "...")[] = [];
 		const delta = 1;
@@ -82,7 +80,6 @@ function Pagination({
 			</p>
 
 			<div className="flex items-center gap-1">
-				{/* Previous */}
 				{currentPage > 1 ? (
 					<Link
 						href={pageUrl(currentPage - 1)}
@@ -96,7 +93,6 @@ function Pagination({
 					</span>
 				)}
 
-				{/* Page numbers */}
 				<div className="flex items-center gap-1">
 					{pageNumbers.map((p, i) =>
 						p === "..." ? (
@@ -122,7 +118,6 @@ function Pagination({
 					)}
 				</div>
 
-				{/* Next */}
 				{currentPage < totalPages ? (
 					<Link
 						href={pageUrl(currentPage + 1)}
@@ -140,7 +135,6 @@ function Pagination({
 	);
 }
 
-// ── Page ───────────────────────────────────────────────────────────────────
 export default async function OfficerPage({
 	searchParams,
 }: {
@@ -202,22 +196,22 @@ export default async function OfficerPage({
 										<th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
 											Código
 										</th>
-										<th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
+										<th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
 											Denunciante
 										</th>
-										<th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
+										<th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
 											DNI
 										</th>
-										<th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
+										<th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
 											Tipo
 										</th>
 										<th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
 											Estado
 										</th>
-										<th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
+										<th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
 											Lugar
 										</th>
-										<th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
+										<th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
 											Fecha
 										</th>
 										<th className="px-4 py-3" />
@@ -232,12 +226,12 @@ export default async function OfficerPage({
 											<td className="px-4 py-3 font-mono font-medium text-gray-900 whitespace-nowrap">
 												{complaint.trackingCode}
 											</td>
-											<td className="px-4 py-3 text-gray-900 whitespace-nowrap">
+											<td className="hidden sm:table-cell px-4 py-3 text-gray-900 whitespace-nowrap">
 												{complaint.complainantName ?? (
 													<span className="text-gray-400">—</span>
 												)}
 											</td>
-											<td className="px-4 py-3 font-mono text-gray-600 whitespace-nowrap">
+											<td className="hidden sm:table-cell px-4 py-3 font-mono text-gray-600 whitespace-nowrap">
 												{complaint.complainantDni ? (
 													<>
 														<span className="text-gray-400">••••</span>
@@ -247,7 +241,7 @@ export default async function OfficerPage({
 													<span className="text-gray-400">—</span>
 												)}
 											</td>
-											<td className="px-4 py-3 text-gray-600 whitespace-nowrap">
+											<td className="hidden sm:table-cell px-4 py-3 text-gray-600 whitespace-nowrap">
 												{TYPE_LABELS[complaint.type] ?? complaint.type}
 											</td>
 											<td className="px-4 py-3 whitespace-nowrap">
@@ -260,12 +254,12 @@ export default async function OfficerPage({
 													{STATUS_LABELS[complaint.status] ?? complaint.status}
 												</span>
 											</td>
-											<td className="px-4 py-3 text-gray-500 max-w-48 truncate">
+											<td className="hidden sm:table-cell px-4 py-3 text-gray-500 max-w-48 truncate">
 												{complaint.locationAddress ?? (
 													<span className="text-gray-400">—</span>
 												)}
 											</td>
-											<td className="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">
+											<td className="hidden sm:table-cell px-4 py-3 text-gray-500 text-xs whitespace-nowrap">
 												{new Date(complaint.createdAt).toLocaleDateString(
 													"es-PE",
 												)}
@@ -284,7 +278,6 @@ export default async function OfficerPage({
 							</table>
 						</div>
 
-						{/* Pagination — inside the table card, below the rows */}
 						<Pagination
 							currentPage={currentPage}
 							totalPages={totalPages}
@@ -293,7 +286,6 @@ export default async function OfficerPage({
 					</div>
 				)}
 
-				{/* Summary line */}
 				{rows.length > 0 && (
 					<p className="text-xs text-gray-500 text-center">
 						Mostrando {(currentPage - 1) * pageSize + 1}–

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function DenunciarPage() {
 	return (
-		<div className="min-h-screen bg-gray-50 py-12 px-4">
+		<div className="min-h-[calc(100vh-3.55rem)] bg-gray-50 py-12 px-4">
 			<div className="max-w-xl mx-auto">
 				<div className="mb-8">
 					<h1 className="text-2xl font-semibold text-gray-900">

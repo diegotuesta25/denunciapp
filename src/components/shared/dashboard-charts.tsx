@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import {
 	BarChart,
 	Bar,
@@ -7,6 +8,19 @@ import {
 	Tooltip,
 	ResponsiveContainer,
 } from "recharts";
+
+function useIsMobile() {
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const check = () => setIsMobile(window.innerWidth < 640);
+		check();
+		window.addEventListener("resize", check);
+		return () => window.removeEventListener("resize", check);
+	}, []);
+
+	return isMobile;
+}
 
 const TYPE_LABELS: Record<string, string> = {
 	patrimonio: "Patrimonio",
@@ -52,6 +66,7 @@ type DashboardData = {
 };
 
 export function DashboardCharts({ data }: { data: DashboardData }) {
+	const isMobile = useIsMobile();
 	const months = [...new Set(data.monthlyTrend.map(d => d.month))].sort();
 	const types = [...new Set(data.monthlyTrend.map(d => d.type))];
 
@@ -117,18 +132,18 @@ export function DashboardCharts({ data }: { data: DashboardData }) {
 				<h2 className="text-sm font-medium text-gray-700 mb-6">
 					Denuncias por distrito — Top 10
 				</h2>
-				<ResponsiveContainer width="100%" height={300}>
+				<ResponsiveContainer width="100%" height={isMobile ? 380 : 300}>
 					<BarChart
 						data={topDistricts}
 						layout="vertical"
-						margin={{ left: 140, right: 20 }}
+						margin={{ left: isMobile ? 4 : 140, right: 20 }}
 					>
-						<XAxis type="number" tick={{ fontSize: 12 }} />
+						<XAxis type="number" tick={{ fontSize: isMobile ? 10 : 12 }} />
 						<YAxis
 							type="category"
 							dataKey="districtName"
-							tick={{ fontSize: 12 }}
-							width={130}
+							tick={{ fontSize: isMobile ? 10 : 12 }}
+							width={isMobile ? 90 : 130}
 						/>
 						<Tooltip formatter={value => [`${value} denuncias`, "Total"]} />
 						<Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} />

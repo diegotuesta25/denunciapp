@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function TrackPage() {
 	return (
-		<div className="min-h-screen bg-gray-50 py-12 px-4">
+		<div className="min-h-[calc(100vh-3.55rem)] bg-gray-50 py-12 px-4">
 			<div className="max-w-lg mx-auto">
 				<Link
 					href="/"

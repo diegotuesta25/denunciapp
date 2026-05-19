@@ -239,8 +239,8 @@ export default async function HomePage() {
 			<footer className="max-w-6xl mx-auto px-4 py-8 mt-8 border-t border-gray-100">
 				<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 					<p className="text-xs text-gray-500">
-						DenunciApp - Proyecto de cartera de Diego Tuesta. No es un sistema
-						oficial de la PNP.
+						DenunciApp - Proyecto de portafolio de Diego Tuesta. No es un
+						sistema oficial de la PNP.
 					</p>
 					<div className="flex items-center gap-4 text-xs text-gray-500">
 						<Link href="/estadisticas" className="hover:text-gray-600">

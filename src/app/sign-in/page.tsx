@@ -9,7 +9,7 @@ export default async function SignInPage({
 	const { callbackUrl } = await searchParams;
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gray-50">
+		<div className="min-h-[calc(100vh-3.55rem)] flex items-center justify-center bg-gray-50 px-4">
 			<div className="w-full max-w-md p-8 bg-white rounded-xl shadow-sm border">
 				<div className="mb-8">
 					<h1 className="text-2xl font-semibold text-gray-900">Ingresar</h1>
